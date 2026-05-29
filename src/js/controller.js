@@ -12,3 +12,5 @@ const timeout = function (s) {
 // https://forkify-api.jonas.io
 
 ///////////////////////////////////////
+
+console.log('TEST');
