@@ -1,0 +1,15 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe Application",
+  "license": "ISC",
+  "author": "Manuel",
+  "type": "commonjs",
+  "scripts": {
+    "start": "parcel firefox --open index.html",
+    "build": "parcel build index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  }
+}
