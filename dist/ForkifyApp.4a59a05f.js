@@ -207,7 +207,7 @@
       });
     }
   }
-})({"5DuvQ":[function(require,module,exports,__globalThis) {
+})({"appxp":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -726,7 +726,15 @@ const timeout = function(s) {
 // https://forkify-api.jonas.io
 ///////////////////////////////////////
 console.log('TEST');
+const showRecipe = async function() {
+    try {
+        const res = await fetch(`https://forkify-api.jonas.io`);
+        const data = await res.json();
+    } catch (err) {
+        alert(err);
+    }
+};
 
-},{}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {})
+},{}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {})
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map
