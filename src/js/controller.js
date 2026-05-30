@@ -21,6 +21,8 @@ const showRecipe = async function () {
   try {
     const res = await fetch(`https://forkify-api.jonas.io`);
     const data = await res.json();
+
+
   } catch (err) {
     alert(err);
   }
