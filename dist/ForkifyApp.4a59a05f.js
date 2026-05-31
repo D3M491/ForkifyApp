@@ -720,7 +720,7 @@ var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _iconsSvg = require("url:../img/icons.svg"); //PArcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 //Regenerator runtime fa funzionare async await
-var _runtime = require("regenerator-runtime/runtime"); //Importo solo il runtime
+var _runtime = require("regenerator-runtime/runtime"); //Importo solo il runtime7s
 const recipeContainer = document.querySelector('.recipe');
 const timeout = function(s) {
     return new Promise(function(_, reject) {

@@ -4,7 +4,7 @@ import icons from 'url:../img/icons.svg'; //PArcel 2
 //Tool di polyfill , core-js inserisce metodi e funzionalita es6 in old browsers
 import 'core-js/stable'; //Importo solo la versione stable
 //Regenerator runtime fa funzionare async await
-import 'regenerator-runtime/runtime'; //Importo solo il runtime
+import 'regenerator-runtime/runtime'; //Importo solo il runtime7s
 
 const recipeContainer = document.querySelector('.recipe');
 
