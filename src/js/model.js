@@ -48,7 +48,7 @@ export const loadSearchResults = async function (query) {
       };
     });
 
-    console.log(state.search.results);
+    if (state.search.results.length === 0) throw new Error('err');
   } catch (err) {
     throw err;
   }

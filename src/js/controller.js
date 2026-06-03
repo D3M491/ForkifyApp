@@ -9,10 +9,10 @@ import 'core-js/stable'; //Importo solo la versione stable
 //Regenerator runtime fa funzionare async await
 import 'regenerator-runtime/runtime'; //Importo solo il runtime7s
 
-// NEW API URL (instead of the one shown in the video)
-// https://forkify-api.jonas.io
-
-///////////////////////////////////////
+//Questo non è js ma viene da parcel
+if (module.hot) {
+  module.hot.accept();
+}
 
 const controlRecipes = async function () {
   try {
@@ -41,13 +41,16 @@ const controlSearchResults = async function () {
     const query = searchView.getQuery();
     if (!query) return;
 
+    //Saving query for better error handling
+    resultsView.takeQuery(query);
+
     //Load search results
     await model.loadSearchResults(query);
 
     //Render results
-    console.log(model.state.search.results);
-  } catch (error) {
-    console.log(error);
+    resultsView.render(model.state.search.results);
+  } catch (err) {
+    resultsView.renderError();
   }
 };
 

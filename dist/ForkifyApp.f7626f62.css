@@ -299,10 +299,6 @@ body {
   .search__field {
     width: auto;
   }
-
-  .search__field::placeholder {
-    color: #fff;
-  }
 }
 
 .search__btn {

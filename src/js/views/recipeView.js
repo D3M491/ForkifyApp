@@ -6,8 +6,6 @@ import View from './View';
 //Ho switchato da private fields con # a protected con _
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
-  _errorMessage = 'We could not find that recipe . Please try another one!';
-  _message = '';
 
   //Handler è la mia subsciber function
   addHandlerRender(handler) {
@@ -55,9 +53,7 @@ class RecipeView extends View {
           </div>
 
           <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
+            
           </div>
           <button class="btn--round">
             <svg class="">
@@ -95,19 +91,6 @@ class RecipeView extends View {
             </svg>
           </a>
         </div>`;
-  }
-
-  renderSpinner() {
-    const markup = ` 
-       <div class ="spinner">
-          <svg>
-            <use href="${icons}#icon-loader"></use>
-          </svg>
-       </div>
-          `;
-
-    this._parentElement.innerHTML = '';
-    this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   _generateMarkupIng(ing) {

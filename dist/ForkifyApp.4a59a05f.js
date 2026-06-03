@@ -726,9 +726,8 @@ var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
 //Regenerator runtime fa funzionare async await
 var _runtime = require("regenerator-runtime/runtime"); //Importo solo il runtime7s
-// NEW API URL (instead of the one shown in the video)
-// https://forkify-api.jonas.io
-///////////////////////////////////////
+//Questo non è js ma viene da parcel
+if (module.hot) module.hot.accept();
 const controlRecipes = async function() {
     try {
         //Ottengo l'url della barra di ricerca così
@@ -751,12 +750,14 @@ const controlSearchResults = async function() {
         //Get search query
         const query = (0, _searchViewJsDefault.default).getQuery();
         if (!query) return;
+        //Saving query for better error handling
+        (0, _resultsViewJsDefault.default).takeQuery(query);
         //Load search results
         await _modelJs.loadSearchResults(query);
         //Render results
-        console.log(_modelJs.state.search.results);
-    } catch (error) {
-        console.log(error);
+        (0, _resultsViewJsDefault.default).render(_modelJs.state.search.results);
+    } catch (err) {
+        (0, _resultsViewJsDefault.default).renderError();
     }
 };
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
@@ -2684,7 +2685,7 @@ const loadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
-        console.log(state.search.results);
+        if (state.search.results.length === 0) throw new Error('err');
     } catch (err) {
         throw err;
     }
@@ -2741,8 +2742,6 @@ var _viewDefault = parcelHelpers.interopDefault(_view);
 //Ho switchato da private fields con # a protected con _
 class RecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.recipe');
-    _errorMessage = 'We could not find that recipe . Please try another one!';
-    _message = '';
     //Handler è la mia subsciber function
     addHandlerRender(handler) {
         //Ascoltando il cambio di hash nella barra di ricerca e il load , poi chiamo la funzione
@@ -2791,9 +2790,7 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
 
           <div class="recipe__user-generated">
-            <svg>
-              <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
-            </svg>
+            
           </div>
           <button class="btn--round">
             <svg class="">
@@ -2829,17 +2826,6 @@ class RecipeView extends (0, _viewDefault.default) {
           </a>
         </div>`;
     }
-    renderSpinner() {
-        const markup = ` 
-       <div class ="spinner">
-          <svg>
-            <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
-          </svg>
-       </div>
-          `;
-        this._parentElement.innerHTML = '';
-        this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    }
     _generateMarkupIng(ing) {
         //Ciclo sull array e ritorno una stringa di html che poi inseriro come adjacent
         return `
@@ -2859,7 +2845,7 @@ class RecipeView extends (0, _viewDefault.default) {
 //Non passo nessun dato e non ho bisogno di nessun costruttore
 exports.default = new RecipeView();
 
-},{"url:../../img/icons.svg":"fd0vu","fracty":"gsPKI","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./View":"jSw21"}],"fd0vu":[function(require,module,exports,__globalThis) {
+},{"url:../../img/icons.svg":"fd0vu","fracty":"gsPKI","./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"fd0vu":[function(require,module,exports,__globalThis) {
 module.exports = module.bundle.resolve("icons.0809ef97.svg") + "?" + Date.now();
 
 },{}],"gsPKI":[function(require,module,exports,__globalThis) {
@@ -2960,11 +2946,17 @@ function returnStrings(den, num, integer, type) {
 },{}],"jSw21":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _iconsSvg = require("url:../../img/icons.svg"); //PArcel 2
+var _iconsSvg = require("url:../../img/icons.svg"); //Parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
+    _query;
     _data;
+    get _errorMessage() {
+        return 'We could not find any recipe. Please try another one!';
+    }
+    _message = '';
     //Metodo pubblico
+    //Inserisce il markup generato
     render(data) {
         this._data = data;
         //Markup ora è ciò che _ ritorna
@@ -2972,6 +2964,17 @@ class View {
         //Pulsci ricetta
         this._clear();
         //inserisci markup nel parentelement
+        this._parentElement.insertAdjacentHTML('afterbegin', markup);
+    }
+    renderSpinner() {
+        const markup = ` 
+         <div class ="spinner">
+            <svg>
+              <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
+            </svg>
+         </div>
+            `;
+        this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     //Pulisce il campo ricetta
@@ -3011,7 +3014,7 @@ class View {
 }
 exports.default = View;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}],"kbE4Z":[function(require,module,exports,__globalThis) {
+},{"url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"kbE4Z":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class searchView {
@@ -3040,11 +3043,39 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
-class resultView extends (0, _viewDefault.default) {
+var _iconsSvg = require("../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class resultsView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.results');
+    // Il getter legge this._query, che viene salvato da takeQuery()
+    get _errorMessage() {
+        return `We could not find any recipe containing "${this._query}" . Please try another one!`;
+    }
+    takeQuery(query) {
+        this._query = query;
+    }
+    _generateMarkup() {
+        return this._data.map(this._generatMarkupPreview).join('');
+    }
+    _generatMarkupPreview(result) {
+        return `
+    <li class="preview">
+            <a class="preview__link" href="#${result.id}">
+              <figure class="preview__fig">
+                <img src="${result.image}" alt="${result.title}"/>
+              </figure>
+              <div class="preview__data">
+                <h4 class="preview__title">${result.title}</h4>
+                <p class="preview__publisher">${result.publisher}</p>
+              </div>
+            </a>
+          </li>
+    
+    `;
+    }
 }
-exports.default = new resultView();
+exports.default = new resultsView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","../../img/icons.svg":"d6UCS"}],"d6UCS":[function() {},{}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map

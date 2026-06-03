@@ -1,9 +1,16 @@
-import icons from 'url:../../img/icons.svg'; //PArcel 2
+import icons from 'url:../../img/icons.svg'; //Parcel 2
 
 //View comune
 export default class View {
+  _query;
   _data;
+  get _errorMessage() {
+    return 'We could not find any recipe. Please try another one!';
+  }
+  _message = '';
   //Metodo pubblico
+
+  //Inserisce il markup generato
   render(data) {
     this._data = data;
 
@@ -12,6 +19,19 @@ export default class View {
     //Pulsci ricetta
     this._clear();
     //inserisci markup nel parentelement
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderSpinner() {
+    const markup = ` 
+         <div class ="spinner">
+            <svg>
+              <use href="${icons}#icon-loader"></use>
+            </svg>
+         </div>
+            `;
+
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
