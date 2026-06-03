@@ -32,6 +32,17 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    await model.loadSearchResults('pizza');
+    console.log(model.state.search.results);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+controlSearchResults();
+
 //Chiamo la funzione handler nel view passando la mia funzione subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);

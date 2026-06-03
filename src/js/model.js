@@ -4,6 +4,11 @@ import { getJSON } from './helpers';
 
 export const state = {
   recipe: {},
+  //Salvo la ricerca nello state creando un nuovo oggetto con query e risultati
+  search: {
+    query: '',
+    results: [],
+  },
 };
 
 export const loadRecipe = async function (id) {
@@ -25,6 +30,26 @@ export const loadRecipe = async function (id) {
     };
   } catch (err) {
     // console.error(`${err} 🔥🔥`);
+    throw err;
+  }
+};
+
+//The controller will call this function
+export const loadSearchResults = async function (query) {
+  try {
+    state.search.query = query;
+    const data = await getJSON(`${API_URL}?search=${query}`);
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
+
+    console.log(state.search.results);
+  } catch (err) {
     throw err;
   }
 };
