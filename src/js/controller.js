@@ -1,6 +1,8 @@
 //Import tutto dal model
 import * as model from './model.js';
 import recipeView from './views/recipeView';
+import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 
 //Tool di polyfill , core-js inserisce metodi e funzionalita es6 in old browsers
 import 'core-js/stable'; //Importo solo la versione stable
@@ -34,18 +36,25 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
-    await model.loadSearchResults('pizza');
+    resultsView.renderSpinner();
+    //Get search query
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    //Load search results
+    await model.loadSearchResults(query);
+
+    //Render results
     console.log(model.state.search.results);
   } catch (error) {
     console.log(error);
   }
 };
 
-controlSearchResults();
-
-//Chiamo la funzione handler nel view passando la mia funzione subscriber
+//Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 
 init();
