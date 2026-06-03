@@ -5,6 +5,7 @@ import Fraction from 'fracty';
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+  #errorMessage = 'We could not find that recipe . Please try another one!';
 
   //Metodo pubblico
   render(data) {
@@ -21,6 +22,29 @@ class RecipeView {
   //Pulisce il campo ricetta
   #clear() {
     this.#parentElement.innerHTML = '';
+  }
+
+  //Di default metto il messaggio custom
+  renderError(message = this.#errorMessage) {
+    const markup = `
+    
+        <div class="error">
+            <div>
+              <svg>
+                <use href="${icons}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>${message}</p>
+          </div>`;
+
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  //Handler è la mia subsciber function
+  addHandlerRender(handler) {
+    //Ascoltando il cambio di hash nella barra di ricerca e il load , poi chiamo la funzione
+    ['hashchange', 'load'].forEach(e => window.addEventListener(e, handler));
   }
 
   //genera markup e ritornalo
