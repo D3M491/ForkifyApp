@@ -67,6 +67,7 @@ export const getSearchResultPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
+  console.log(state.recipe.servings);
   //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
@@ -75,7 +76,7 @@ export const updateServings = function (newServings) {
     //New quantity = old quantity  * new serving / old serving
   });
 
-  state.recipe.servings = newServings;
   //Aggiorno nello state
+  state.recipe.servings = newServings;
   console.log(state.recipe.servings);
 };

@@ -31,9 +31,6 @@ const controlRecipes = async function () {
 
     //Chiama il metodo render della classe recipeView passando la ricetta
     recipeView.render(model.state.recipe);
-
-    //TEST
-    controlServings();
   } catch (err) {
     recipeView.renderError();
   }
@@ -77,12 +74,12 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search);
 };
 
-const controlServings = function () {
+const controlServings = function (newServings) {
   console.log('test');
   //Update recipe servings in state
-  model.updateServings(8);
   console.log(model.state.recipe);
   //Update view
+  model.updateServings(newServings);
   recipeView.render(model.state.recipe);
 };
 

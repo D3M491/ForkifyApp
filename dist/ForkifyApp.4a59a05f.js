@@ -207,7 +207,7 @@
       });
     }
   }
-})({"appxp":[function(require,module,exports,__globalThis) {
+})({"5DuvQ":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -745,8 +745,6 @@ const controlRecipes = async function() {
         console.log(recipe);
         //Chiama il metodo render della classe recipeView passando la ricetta
         (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
-        //TEST
-        controlServings();
     } catch (err) {
         (0, _recipeViewDefault.default).renderError();
     }
@@ -781,12 +779,12 @@ const controlPagination = function(goToPage) {
     //Render new pagination buttons
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
-const controlServings = function() {
+const controlServings = function(newServings) {
     console.log('test');
     //Update recipe servings in state
-    _modelJs.updateServings(8);
     console.log(_modelJs.state.recipe);
     //Update view
+    _modelJs.updateServings(newServings);
     (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
 };
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
@@ -2117,14 +2115,15 @@ const getSearchResultPage = function(page = state.search.page) {
     return state.search.results.slice(start, end);
 };
 const updateServings = function(newServings) {
+    console.log(state.recipe.servings);
     //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
     state.recipe.ingredients.forEach((ing)=>{
         ing.quantity = ing.quantity * newServings / state.recipe.servings;
     //Proporzione
     //New quantity = old quantity  * new serving / old serving
     });
-    state.recipe.servings = newServings;
     //Aggiorno nello state
+    state.recipe.servings = newServings;
     console.log(state.recipe.servings);
 };
 
@@ -2809,10 +2808,10 @@ class RecipeView extends (0, _viewDefault.default) {
             const btn = e.target.closest('.btn--update-servings');
             //Se non ho cliccato sul btn esci
             if (!btn) return;
-            console.log(btn);
             //???
             const updateTo = +btn.dataset.updateTo;
-            handler();
+            console.log(btn);
+            handler(updateTo);
         });
     }
     //genera markup e ritornalo
@@ -2841,12 +2840,12 @@ class RecipeView extends (0, _viewDefault.default) {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--update-servings  data-update-to ="${this._data.servings - 1}">
+              <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--update-servings data-update-to ="${this._data.servings + 1}">
+              <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings + 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
@@ -3201,6 +3200,6 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map
