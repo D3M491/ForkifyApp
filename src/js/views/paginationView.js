@@ -35,7 +35,7 @@ class paginationView extends View {
             </svg>
           </button>`;
     //Page 1 and there are not other pages
-    if (currentPage === 1 && numPages < 1) return ``;
+    if (currentPage === 1 && numPages <= 1) return ``;
     //Last page
     if (currentPage === numPages && numPages > 1)
       return `

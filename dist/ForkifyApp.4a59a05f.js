@@ -207,7 +207,7 @@
       });
     }
   }
-})({"5DuvQ":[function(require,module,exports,__globalThis) {
+})({"appxp":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -758,12 +758,17 @@ const controlSearchResults = async function() {
         (0, _resultsViewJsDefault.default).takeQuery(query);
         //Load search results
         await _modelJs.loadSearchResults(query);
+        if (!_modelJs.state.search.results || _modelJs.state.search.results.length < 1) return;
+        console.log(_modelJs.state.search.results);
         //Render results
-        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultPage(2));
+        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultPage());
         //Render inital pagination buttons . Passo i dati dello state con pagina ecc
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
+        //Se vai in errore renderizzalo
         (0, _resultsViewJsDefault.default).renderError();
+        //E resetta i pulsanti
+        (0, _paginationViewJsDefault.default)._clear();
     }
 };
 //Nuovo controller per le pagine
@@ -3133,7 +3138,7 @@ class paginationView extends (0, _viewDefault.default) {
             </svg>
           </button>`;
         //Page 1 and there are not other pages
-        if (currentPage === 1 && numPages < 1) return ``;
+        if (currentPage === 1 && numPages <= 1) return ``;
         //Last page
         if (currentPage === numPages && numPages > 1) return `
           <button data-goto = "${currentPage - 1}" class="btn--inline pagination__btn--prev">
@@ -3161,6 +3166,6 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map

@@ -48,12 +48,20 @@ const controlSearchResults = async function () {
     //Load search results
     await model.loadSearchResults(query);
 
+    if (!model.state.search.results || model.state.search.results.length < 1)
+      return;
+
+    console.log(model.state.search.results);
+
     //Render results
-    resultsView.render(model.getSearchResultPage(2));
+    resultsView.render(model.getSearchResultPage());
     //Render inital pagination buttons . Passo i dati dello state con pagina ecc
     paginationView.render(model.state.search);
   } catch (err) {
+    //Se vai in errore renderizzalo
     resultsView.renderError();
+    //E resetta i pulsanti
+    paginationView._clear();
   }
 };
 
