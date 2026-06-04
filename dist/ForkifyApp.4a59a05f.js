@@ -207,7 +207,7 @@
       });
     }
   }
-})({"appxp":[function(require,module,exports,__globalThis) {
+})({"5DuvQ":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -742,8 +742,11 @@ const controlRecipes = async function() {
         //Loading recipe
         await _modelJs.loadRecipe(id);
         const { recipe } = _modelJs.state;
+        console.log(recipe);
         //Chiama il metodo render della classe recipeView passando la ricetta
         (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
+        //TEST
+        controlServings();
     } catch (err) {
         (0, _recipeViewDefault.default).renderError();
     }
@@ -778,9 +781,17 @@ const controlPagination = function(goToPage) {
     //Render new pagination buttons
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
+const controlServings = function() {
+    console.log('test');
+    //Update recipe servings in state
+    _modelJs.updateServings(4);
+    //Update view
+    (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
+};
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+    (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
@@ -2045,6 +2056,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultPage", ()=>getSearchResultPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _regeneratorRuntimeDefault = parcelHelpers.interopDefault(_regeneratorRuntime);
 var _config = require("./config");
@@ -2102,6 +2114,17 @@ const getSearchResultPage = function(page = state.search.page) {
     const start = (page - 1) * state.search.resultsPerPage; //0 Pagina 0 => 1-1 * 10 = 0
     const end = page * state.search.resultsPerPage; //9 Pagina 0 => 1*10 = 10
     return state.search.results.slice(start, end);
+};
+const updateServings = function(newServings) {
+    //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    //Proporzione
+    //New quantity = old quantity  * new serving / old serving
+    });
+    //Aggiorno nello state
+    state.recipe.servings = newServings;
+    console.log(state.recipe.servings);
 };
 
 },{"regenerator-runtime":"f6ot0","./config":"2hPh4","./helpers":"7nL9P","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"f6ot0":[function(require,module,exports,__globalThis) {
@@ -2780,6 +2803,15 @@ class RecipeView extends (0, _viewDefault.default) {
             'load'
         ].forEach((e)=>window.addEventListener(e, handler));
     }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--tiny');
+            //Se non ho cliccato sul btn esci
+            if (!btn) return;
+            console.log(btn);
+            handler();
+        });
+    }
     //genera markup e ritornalo
     _generateMarkup() {
         //Markup della recipe . Ora le voci le prendo da this._data
@@ -2806,7 +2838,7 @@ class RecipeView extends (0, _viewDefault.default) {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--decrease-servings">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
@@ -3166,6 +3198,6 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map

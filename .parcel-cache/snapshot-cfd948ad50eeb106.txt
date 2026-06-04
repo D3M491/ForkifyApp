@@ -76,7 +76,7 @@
 84C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\string\pad-end.js134249357340006875 0
 79C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\ordered-binary\index.js134249357313618794 0
 82C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\array\at.js134249357318127844 0
-47C:\Users\manue\Documents\GitHub\ForkifyApp\dist134250239040542725 1
+47C:\Users\manue\Documents\GitHub\ForkifyApp\dist134250430085062653 1
 108C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\lightningcss\node_modules\detect-libc\lib\process.js134249357314014139 0
 83C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\instance\bind.js134249357318766001 0
 92C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\proposals\using-statement.js134249357349708703 0
@@ -181,7 +181,7 @@
 71C:\Users\manue\Documents\GitHub\ForkifyApp\src\sass\_searchResults.scss134182027225126131 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\esnext.iterator.zip.js134249357326928492 0
 109C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\esnext.typed-array.find-last-index.js134249357327609723 0
-49C:\Users\manue\Documents\GitHub\ForkifyApp\src\js134249878742978121 1
+49C:\Users\manue\Documents\GitHub\ForkifyApp\src\js134250416100724315 1
 50C:\Users\manue\Documents\GitHub\ForkifyApp\src\img134245062593680407 1
 69C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\escalade\sync134249357314534561 1
 91C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\es.math.f16round.js134249357323722238 0
@@ -192,7 +192,7 @@
 51C:\Users\manue\Documents\GitHub\ForkifyApp\src\sass134245062593837692 1
 73C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\sass\sass.node.js134249357316178371 0
 83C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\instance\some.js134249357344119666 0
-73C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\paginationView.js134250239039981585 0
+73C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\paginationView.js134250416100798188 0
 97C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\stable\reflect\define-property.js134249357320964023 0
 75C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\regenerator-runtime134249357313703898 1
 97C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\esnext.observable.from.js134249357327209048 0
@@ -269,7 +269,7 @@
 102C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\lmdb\node_modules\node-addon-api\noexcept.gypi134249357313703898 0
 92C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\typed-array\subarray.js134249357345143150 0
 105C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\source-map\parcel_sourcemap_node\build.rs134249357316739350 0
-63C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\controller.js134250236091847757 0
+63C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\controller.js134250429477961685 0
 79C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\semver\functions\neq.js134249357315592613 0
 80C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\math\trunc.js134249357348976636 0
 70C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\parcel\LICENSE134249357312692055 0
@@ -278,16 +278,16 @@
 70C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\supports-color134249357313658786 1
 60C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\helpers.js134249372320855483 0
 86C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\instance\clamp.js134249357319376570 0
-58C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\model.js134250229257047675 0
+58C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\model.js134250424857000451 0
 77C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\commander\lib\help.js134249357314154370 0
-69C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\recipeView.js134249902971273754 0
+69C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\recipeView.js134250430084661236 0
 93C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\cache\src\IDBCache.browser.js134249357313984161 0
 92C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\es.symbol.replace.js134249357325247495 0
 101C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\node-gyp-build-optional-packages\package.json134249357313859043 0
 81C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\semver\functions\minor.js134249357315557457 0
 89C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\number\to-precision.js134249357347251126 0
 92C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\brotli.js134249357316899571 0
-55C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views134250225512829396 1
+55C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views134250416100798188 1
 90C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\stable\typed-array\join.js134249357337197835 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\features\array\reduce-right.js134249357341032794 0
 73C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\immutable\LICENSE134249357312722030 0
@@ -306,7 +306,7 @@
 89C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\number\is-integer.js134249357336061304 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\stable\number\virtual\index.js134249357335369510 0
 60C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@swc134249357306920029 1
-70C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\resultsView.js134249901461045573 0
+70C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\resultsView.js134250242730266430 0
 107C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\array-buffer\transfer-to-fixed-length.js134249357348341008 0
 63C:\Users\manue\Documents\GitHub\ForkifyApp\src\js\views\View.js134249898865314021 0
 76C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\electron-to-chromium134249357314614553 1
@@ -1150,7 +1150,7 @@
 83C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\utils\src\config.js134249357314724559 0
 82C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\get-iterator.js134249357332530870 0
 90C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\es.iterator.map.js134249357323586906 0
-70C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.4a59a05f.js134250239040497555 0
+70C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.4a59a05f.js134250430085012151 0
 85C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\transformer-image\lib134249357314089254 1
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\svg-smil.js134249357326548284 0
 72C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\semver\README.md134249357316095050 0
@@ -1571,7 +1571,7 @@
 89C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\core\src\public\Config.js134249357316229120 0
 109C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@swc\helpers\_\_class_private_field_init\package.json134249357318996368 0
 76C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\web\index.js134249357335475284 0
-65C:\Users\manue\Documents\GitHub\ForkifyApp\dist\logo.726d37a8.png134250230329873842 0
+65C:\Users\manue\Documents\GitHub\ForkifyApp\dist\logo.726d37a8.png134250426490849787 0
 104C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\feature-flags\test\feature-flags.test.js134249357313223336 0
 109C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\stable\object\get-own-property-descriptors.js134249357332876163 0
 80C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\cache\index.d.ts134249357314929909 0
@@ -1666,7 +1666,7 @@
 80C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\node-addon-api\README.md134249357315119961 0
 95C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\modules\es.typed-array.slice.js134249357325587626 0
 92C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\es\typed-array\int8-array.js134249357335589897 0
-68C:\Users\manue\Documents\GitHub\ForkifyApp\dist\favicon.8b2f57bf.png134250230330189407 0
+68C:\Users\manue\Documents\GitHub\ForkifyApp\dist\favicon.8b2f57bf.png134250426491014009 0
 80C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\data-view134249357343288089 1
 90C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\node-addon-api\tools\check-napi.js134249357314684565 0
 114C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\mdn-css-unicode-bidi-isolate.js134249357323804269 0
@@ -4620,7 +4620,7 @@
 89C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\features\iterator\drop.js134249357322190584 0
 89C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\function\metadata.js134249357339165141 0
 97C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\features\array\virtual\reverse.js134249357342952746 0
-66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.7bd9dd61.svg134250232185411870 0
+66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.7bd9dd61.svg134250242731813291 0
 88C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\function\un-this.js134249357349282351 0
 100C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\function\virtual\demethodize.js134249357321489351 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\full\function\virtual\index.js134249357335079325 0
@@ -5647,7 +5647,7 @@
 88C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\symbol\species.js134249357344419846 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\symbol\to-string-tag.js134249357347878979 0
 84C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\string\big.js134249357318599247 0
-71C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.f7626f62.css134250230330334910 0
+71C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.f7626f62.css134250426490739469 0
 86C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\string\blink.js134249357318896043 0
 86C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\string\fixed.js134249357329769620 0
 90C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\core-js\actual\string\fontcolor.js134249357330260727 0
@@ -6291,7 +6291,7 @@
 106C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\css-element-function.js134249357318766001 0
 104C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\core\test\fixtures\common-targets-ignore134249357318996368 1
 104C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\css-featurequeries.js134249357318816050 0
-66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.0809ef97.svg134250232185360584 0
+66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.0809ef97.svg134250426490849787 0
 94C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\core\test\fixtures\module-b.js134249357316954662 0
 110C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\css-file-selector-button.js134249357318826039 0
 97C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\css-filters.js134249357318846045 0
@@ -6471,7 +6471,7 @@
 104C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\keyboardevent-code.js134249357323186675 0
 103C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\keyboardevent-key.js134249357323206677 0
 105C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\keyboardevent-which.js134249357323226672 0
-74C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.4a59a05f.js.map134250239040532627 0
+74C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.4a59a05f.js.map134250430085052153 0
 99C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\link-icon-png.js134249357323396864 0
 103C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\link-rel-prefetch.js134249357323446861 0
 104C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\caniuse-lite\data\features\link-rel-prerender.js134249357323466863 0
@@ -7014,7 +7014,7 @@
 81C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\watcher\src\macos134249357315642831 1
 82C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\watcher\src\shared134249357315497467 1
 86C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\watcher\src\Watcher.cc134249357315099953 0
-66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.21bad73c.svg134250230330004235 0
+66C:\Users\manue\Documents\GitHub\ForkifyApp\dist\icons.21bad73c.svg134250426490729403 0
 101C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\watcher\src\windows\WindowsBackend.hh134249357315964461 0
 81C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\fs\lib\browser.js134249357313383602 0
 96C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\@parcel\watcher\src\windows\win_utils.hh134249357315933061 0
@@ -7534,6 +7534,6 @@
 83C:\Users\manue\Documents\GitHub\ForkifyApp\node_modules\.bin\update-browserslist-db134249357350951321 0
 70C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.3464ddca.js134245081305103665 0
 74C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.3464ddca.js.map134245081305118720 0
-75C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.f7626f62.css.map134250230330360018 0
-58C:\Users\manue\Documents\GitHub\ForkifyApp\dist\index.html134250230330159423 0
+75C:\Users\manue\Documents\GitHub\ForkifyApp\dist\ForkifyApp.f7626f62.css.map134250426490764536 0
+58C:\Users\manue\Documents\GitHub\ForkifyApp\dist\index.html134250426490704328 0
 64C:\Users\manue\Documents\GitHub\ForkifyApp\.vscode\settings.json134245241458124292 0

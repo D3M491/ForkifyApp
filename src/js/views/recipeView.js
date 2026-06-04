@@ -13,6 +13,17 @@ class RecipeView extends View {
     ['hashchange', 'load'].forEach(e => window.addEventListener(e, handler));
   }
 
+  addHandlerUpdateServings(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+
+      //Se non ho cliccato sul btn esci
+      if (!btn) return;
+      console.log(btn);
+      handler();
+    });
+  }
+
   //genera markup e ritornalo
   _generateMarkup() {
     //Markup della recipe . Ora le voci le prendo da this._data
@@ -39,7 +50,7 @@ class RecipeView extends View {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--decrease-servings">
                 <svg>
                   <use href="${icons}#icon-minus-circle"></use>
                 </svg>

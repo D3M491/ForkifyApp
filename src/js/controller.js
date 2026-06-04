@@ -27,9 +27,13 @@ const controlRecipes = async function () {
     //Loading recipe
     await model.loadRecipe(id);
     const { recipe } = model.state;
+    console.log(recipe);
 
     //Chiama il metodo render della classe recipeView passando la ricetta
     recipeView.render(model.state.recipe);
+
+    //TEST
+    controlServings();
   } catch (err) {
     recipeView.renderError();
   }
@@ -73,9 +77,18 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search);
 };
 
+const controlServings = function () {
+  console.log('test');
+  //Update recipe servings in state
+  model.updateServings(4);
+  //Update view
+  recipeView.render(model.state.recipe);
+};
+
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
