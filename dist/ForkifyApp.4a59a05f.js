@@ -207,7 +207,7 @@
       });
     }
   }
-})({"5DuvQ":[function(require,module,exports,__globalThis) {
+})({"appxp":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -784,7 +784,8 @@ const controlPagination = function(goToPage) {
 const controlServings = function() {
     console.log('test');
     //Update recipe servings in state
-    _modelJs.updateServings(4);
+    _modelJs.updateServings(8);
+    console.log(_modelJs.state.recipe);
     //Update view
     (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
 };
@@ -2122,8 +2123,8 @@ const updateServings = function(newServings) {
     //Proporzione
     //New quantity = old quantity  * new serving / old serving
     });
-    //Aggiorno nello state
     state.recipe.servings = newServings;
+    //Aggiorno nello state
     console.log(state.recipe.servings);
 };
 
@@ -2805,10 +2806,11 @@ class RecipeView extends (0, _viewDefault.default) {
     }
     addHandlerUpdateServings(handler) {
         this._parentElement.addEventListener('click', function(e) {
-            const btn = e.target.closest('.btn--tiny');
+            const btn = e.target.closest('.btn--update-servings');
             //Se non ho cliccato sul btn esci
             if (!btn) return;
             console.log(btn);
+            const updateTo = +btn.dataset.updateTo;
             handler();
         });
     }
@@ -2838,12 +2840,12 @@ class RecipeView extends (0, _viewDefault.default) {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--decrease-servings">
+              <button class="btn--tiny btn--update-servings  data-update-to ="${this._data.servings - 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings data-update-to ="${this._data.servings + 1}">
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
@@ -3198,6 +3200,6 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map

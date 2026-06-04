@@ -75,7 +75,7 @@ export const updateServings = function (newServings) {
     //New quantity = old quantity  * new serving / old serving
   });
 
-  //Aggiorno nello state
   state.recipe.servings = newServings;
+  //Aggiorno nello state
   console.log(state.recipe.servings);
 };
