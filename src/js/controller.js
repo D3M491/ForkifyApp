@@ -3,6 +3,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 //Tool di polyfill , core-js inserisce metodi e funzionalita es6 in old browsers
 import 'core-js/stable'; //Importo solo la versione stable
@@ -10,9 +11,9 @@ import 'core-js/stable'; //Importo solo la versione stable
 import 'regenerator-runtime/runtime'; //Importo solo il runtime7s
 
 //Questo non è js ma viene da parcel
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async function () {
   try {
@@ -48,16 +49,27 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     //Render results
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultPage(2));
+    //Render inital pagination buttons . Passo i dati dello state con pagina ecc
+    paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError();
   }
+};
+
+//Nuovo controller per le pagine
+const controlPagination = function (goToPage) {
+  //Render new results
+  resultsView.render(model.getSearchResultPage(goToPage));
+  //Render new pagination buttons
+  paginationView.render(model.state.search);
 };
 
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 init();
