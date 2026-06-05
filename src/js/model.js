@@ -32,6 +32,11 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
+    if (state.bookmarks.some(bookmark => bookmark.id === id))
+      state.recipe.bookmarks = true;
+    else state.recipe.bookmarks = false;
   } catch (err) {
     // console.error(`${err} 🔥🔥`);
     throw err;
@@ -91,4 +96,14 @@ export const addBookmark = function (recipe) {
 
   //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
   if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
+};
+
+//When deleting something we need only the id
+export const deleteBookmark = function (id) {
+  //Trova l'index dell'id del bookmark da eliminare
+  const index = state.bookmarks.findIndex(el => el.id === id);
+  state.bookmarks.splice(index, 1);
+
+  //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
+  if (id === state.recipe.id) state.recipe.bookmarks = false;
 };

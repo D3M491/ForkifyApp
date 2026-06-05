@@ -30,7 +30,6 @@ const controlRecipes = async function () {
     //Loading recipe
     await model.loadRecipe(id);
     const { recipe } = model.state;
-    console.log(recipe);
 
     //Chiama il metodo render della classe recipeView passando la ricetta
     recipeView.render(model.state.recipe);
@@ -91,6 +90,7 @@ const controlServings = function (newServings) {
 const controlAddBookmark = function () {
   model.addBookmark(model.state.recipe);
   console.log(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber

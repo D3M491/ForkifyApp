@@ -207,7 +207,7 @@
       });
     }
   }
-})({"5DuvQ":[function(require,module,exports,__globalThis) {
+})({"appxp":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -744,7 +744,6 @@ const controlRecipes = async function() {
         //Loading recipe
         await _modelJs.loadRecipe(id);
         const { recipe } = _modelJs.state;
-        console.log(recipe);
         //Chiama il metodo render della classe recipeView passando la ricetta
         (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
@@ -794,6 +793,7 @@ const controlServings = function(newServings) {
 const controlAddBookmark = function() {
     _modelJs.addBookmark(_modelJs.state.recipe);
     console.log(_modelJs.state.recipe);
+    (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
 };
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function() {
@@ -2066,6 +2066,7 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultPage", ()=>getSearchResultPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _regeneratorRuntimeDefault = parcelHelpers.interopDefault(_regeneratorRuntime);
 var _config = require("./config");
@@ -2097,6 +2098,9 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
+        //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
+        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarks = true;
+        else state.recipe.bookmarks = false;
     } catch (err) {
         // console.error(`${err} 🔥🔥`);
         throw err;
@@ -2144,6 +2148,13 @@ const addBookmark = function(recipe) {
     state.bookmarks.push(recipe);
     //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
     if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
+};
+const deleteBookmark = function(id) {
+    //Trova l'index dell'id del bookmark da eliminare
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
+    if (id === state.recipe.id) state.recipe.bookmarks = false;
 };
 
 },{"regenerator-runtime":"f6ot0","./config":"2hPh4","./helpers":"7nL9P","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"f6ot0":[function(require,module,exports,__globalThis) {
@@ -2885,7 +2896,7 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
           <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${0, _iconsSvgDefault.default}#icon-bookmark"></use>
+              <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarks ? '-fill' : ''}"></use>
             </svg>
           </button>
         </div>
@@ -3064,8 +3075,6 @@ class View {
         const newDOM = document.createRange().createContextualFragment(newMarkup); //This method convert the string into real dom node
         const newElements = Array.from(newDOM.querySelectorAll('*')); //Elementi presenti ora + il nuovo markup
         const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elementi presenti ora sulla pagina
-        console.log(newElements);
-        console.log(curElements);
         //Looping over both array
         newElements.forEach((newEl, i)=>{
             const curEl = curElements[i];
@@ -3073,7 +3082,7 @@ class View {
             // console.log(curEl, newEl.isEqualNode(curEl));
             //Node value permette di verificare se il nodo è di tipo testo o meno. A noi interessa modificare solo dove il contenuto è puro testo . Seleziono prima first child per ottenere il TEXT NODE che è figlio dell' ELEMENT NODE
             //Update changed text
-            if (!newEl.isEqualNode(curEl) && newEl.firstChild.nodeValue.trim() !== '' //Se il dom new element è diverso dal vecchio e se il textcontent del nodo figlio è diverso da ""
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '' //Se il dom new element è diverso dal vecchio e se il textcontent del nodo figlio è diverso da ""
             ) curEl.textContent = newEl.textContent;
             //Update changed attributes
             if (!newEl.isEqualNode(curEl)) //Sostitusci i vecchi valori di ATTRIBUTO con i nuovi aggiornati
@@ -3251,6 +3260,6 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map
