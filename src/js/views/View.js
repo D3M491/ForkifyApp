@@ -22,6 +22,43 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  update(data) {
+    this._data = data;
+
+    const newMarkup = this._generateMarkup();
+
+    //We are gonna compare this new markup with html existing
+    const newDOM = document.createRange().createContextualFragment(newMarkup); //This method convert the string into real dom node
+    const newElements = Array.from(newDOM.querySelectorAll('*')); //Elementi presenti ora + il nuovo markup
+    const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elementi presenti ora sulla pagina
+    console.log(newElements);
+    console.log(curElements);
+
+    //Looping over both array
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+      //Controllo quali nodi son uguali e quali no
+      // console.log(curEl, newEl.isEqualNode(curEl));
+
+      //Node value permette di verificare se il nodo è di tipo testo o meno. A noi interessa modificare solo dove il contenuto è puro testo . Seleziono prima first child per ottenere il TEXT NODE che è figlio dell' ELEMENT NODE
+
+      //Update changed text
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild.nodeValue.trim() !== '' //Se il dom new element è diverso dal vecchio e se il textcontent del nodo figlio è diverso da ""
+      ) {
+        curEl.textContent = newEl.textContent;
+      }
+
+      //Update changed attributes
+      if (!newEl.isEqualNode(curEl)) {
+        //Sostitusci i vecchi valori di ATTRIBUTO con i nuovi aggiornati
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value),
+        );
+      }
+    });
+  }
   renderSpinner() {
     const markup = ` 
          <div class ="spinner">

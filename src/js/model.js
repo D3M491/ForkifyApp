@@ -12,6 +12,7 @@ export const state = {
     page: 1, //Default
     resultsPerPage: RES_PER_PAGE, //Default
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -51,6 +52,9 @@ export const loadSearchResults = async function (query) {
       };
     });
 
+    //Parto sempre da pagina 1 dopo una nuova ricerca
+    state.search.page = 1;
+
     if (state.search.results.length === 0) throw new Error('err');
   } catch (err) {
     throw err;
@@ -79,4 +83,12 @@ export const updateServings = function (newServings) {
   //Aggiorno nello state
   state.recipe.servings = newServings;
   console.log(state.recipe.servings);
+};
+
+export const addBookmark = function (recipe) {
+  //Aggiungi al bookmark
+  state.bookmarks.push(recipe);
+
+  //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
+  if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
 };

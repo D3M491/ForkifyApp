@@ -24,6 +24,9 @@ const controlRecipes = async function () {
     //Per lo spinner semplicemente lo inserisco prima del fetch . Poi il contenuto del fetch sostituirà lo spinner
     recipeView.renderSpinner();
 
+    //Mostrami i risultati anche quando apro la ricetta
+    resultsView.update(model.getSearchResultPage());
+
     //Loading recipe
     await model.loadRecipe(id);
     const { recipe } = model.state;
@@ -80,13 +83,21 @@ const controlServings = function (newServings) {
   console.log(model.state.recipe);
   //Update view
   model.updateServings(newServings);
-  recipeView.render(model.state.recipe);
+  //Better version :
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
+};
+
+const controlAddBookmark = function () {
+  model.addBookmark(model.state.recipe);
+  console.log(model.state.recipe);
 };
 
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandleAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };

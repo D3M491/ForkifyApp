@@ -739,6 +739,8 @@ const controlRecipes = async function() {
         if (!id) return;
         //Per lo spinner semplicemente lo inserisco prima del fetch . Poi il contenuto del fetch sostituirà lo spinner
         (0, _recipeViewDefault.default).renderSpinner();
+        //Mostrami i risultati anche quando apro la ricetta
+        (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultPage());
         //Loading recipe
         await _modelJs.loadRecipe(id);
         const { recipe } = _modelJs.state;
@@ -785,12 +787,19 @@ const controlServings = function(newServings) {
     console.log(_modelJs.state.recipe);
     //Update view
     _modelJs.updateServings(newServings);
-    (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
+    //Better version :
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
+};
+const controlAddBookmark = function() {
+    _modelJs.addBookmark(_modelJs.state.recipe);
+    console.log(_modelJs.state.recipe);
 };
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
+    (0, _recipeViewDefault.default).addHandleAddBookmark(controlAddBookmark);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
@@ -2056,6 +2065,7 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultPage", ()=>getSearchResultPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _regeneratorRuntimeDefault = parcelHelpers.interopDefault(_regeneratorRuntime);
 var _config = require("./config");
@@ -2068,7 +2078,8 @@ const state = {
         results: [],
         page: 1,
         resultsPerPage: (0, _config.RES_PER_PAGE)
-    }
+    },
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -2103,6 +2114,8 @@ const loadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
+        //Parto sempre da pagina 1 dopo una nuova ricerca
+        state.search.page = 1;
         if (state.search.results.length === 0) throw new Error('err');
     } catch (err) {
         throw err;
@@ -2125,6 +2138,12 @@ const updateServings = function(newServings) {
     //Aggiorno nello state
     state.recipe.servings = newServings;
     console.log(state.recipe.servings);
+};
+const addBookmark = function(recipe) {
+    //Aggiungi al bookmark
+    state.bookmarks.push(recipe);
+    //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
 };
 
 },{"regenerator-runtime":"f6ot0","./config":"2hPh4","./helpers":"7nL9P","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"f6ot0":[function(require,module,exports,__globalThis) {
@@ -2811,7 +2830,15 @@ class RecipeView extends (0, _viewDefault.default) {
             //???
             const updateTo = +btn.dataset.updateTo;
             console.log(btn);
-            handler(updateTo);
+            if (updateTo > 0) handler(updateTo);
+        });
+    }
+    addHandleAddBookmark(handler) {
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--bookmark');
+            if (!btn) return;
+            console.log(btn);
+            handler();
         });
     }
     //genera markup e ritornalo
@@ -2856,9 +2883,9 @@ class RecipeView extends (0, _viewDefault.default) {
           <div class="recipe__user-generated">
             
           </div>
-          <button class="btn--round">
+          <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+              <use href="${0, _iconsSvgDefault.default}#icon-bookmark"></use>
             </svg>
           </button>
         </div>
@@ -3030,6 +3057,29 @@ class View {
         //inserisci markup nel parentelement
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        //We are gonna compare this new markup with html existing
+        const newDOM = document.createRange().createContextualFragment(newMarkup); //This method convert the string into real dom node
+        const newElements = Array.from(newDOM.querySelectorAll('*')); //Elementi presenti ora + il nuovo markup
+        const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elementi presenti ora sulla pagina
+        console.log(newElements);
+        console.log(curElements);
+        //Looping over both array
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            //Controllo quali nodi son uguali e quali no
+            // console.log(curEl, newEl.isEqualNode(curEl));
+            //Node value permette di verificare se il nodo è di tipo testo o meno. A noi interessa modificare solo dove il contenuto è puro testo . Seleziono prima first child per ottenere il TEXT NODE che è figlio dell' ELEMENT NODE
+            //Update changed text
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild.nodeValue.trim() !== '' //Se il dom new element è diverso dal vecchio e se il textcontent del nodo figlio è diverso da ""
+            ) curEl.textContent = newEl.textContent;
+            //Update changed attributes
+            if (!newEl.isEqualNode(curEl)) //Sostitusci i vecchi valori di ATTRIBUTO con i nuovi aggiornati
+            Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
+        });
+    }
     renderSpinner() {
         const markup = ` 
          <div class ="spinner">
@@ -3120,9 +3170,10 @@ class resultsView extends (0, _viewDefault.default) {
         return this._data.map(this._generatMarkupPreview).join('');
     }
     _generatMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return `
     <li class="preview">
-            <a class="preview__link" href="#${result.id}">
+            <a class="preview__link ${result.id === id ? 'preview__link--active' : ''}" href="#${result.id}">
               <figure class="preview__fig">
                 <img src="${result.image}" alt="${result.title}"/>
               </figure>
