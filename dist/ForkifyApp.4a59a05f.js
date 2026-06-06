@@ -2148,11 +2148,16 @@ const updateServings = function(newServings) {
     state.recipe.servings = newServings;
     console.log(state.recipe.servings);
 };
+const persistBookmarks = function() {
+    //Passo l'oggetto convertito in stringa
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
 const addBookmark = function(recipe) {
     //Aggiungi al bookmark
     state.bookmarks.push(recipe);
     //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
     if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
+    persistBookmarks();
 };
 const deleteBookmark = function(id) {
     //Trova l'index dell'id del bookmark da eliminare
@@ -2162,7 +2167,16 @@ const deleteBookmark = function(id) {
     state.bookmarks.splice(index, 1);
     //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
     if (id === state.recipe.id) state.recipe.bookmarks = false;
+    persistBookmarks();
 };
+const init = function() {
+    //Ottieni la
+    const storage = localStorage.getItem('bookmarks');
+    //Passa la memoria come oggetto solo se non è vuota
+    if (storage) state.bookmarks = JSON.parse(storage);
+};
+init();
+console.log(state.bookmarks);
 
 },{"regenerator-runtime":"f6ot0","./config":"2hPh4","./helpers":"7nL9P","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"f6ot0":[function(require,module,exports,__globalThis) {
 /**
