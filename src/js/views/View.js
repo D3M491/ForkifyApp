@@ -8,14 +8,15 @@ export default class View {
     return 'We could not find any recipe. Please try another one!';
   }
   _message = '';
-  //Metodo pubblico
 
   //Inserisce il markup generato
-  render(data) {
+  render(data, render = true) {
     this._data = data;
 
     //Markup ora è ciò che _ ritorna
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
     //Pulsci ricetta
     this._clear();
     //inserisci markup nel parentelement

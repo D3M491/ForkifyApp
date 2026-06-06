@@ -102,8 +102,9 @@ export const addBookmark = function (recipe) {
 export const deleteBookmark = function (id) {
   //Trova l'index dell'id del bookmark da eliminare
   const index = state.bookmarks.findIndex(el => el.id === id);
+  console.log(state.bookmarks);
+  //Rimuovi il bookmark
   state.bookmarks.splice(index, 1);
-
   //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
   if (id === state.recipe.id) state.recipe.bookmarks = false;
 };

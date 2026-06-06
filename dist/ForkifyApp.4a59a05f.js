@@ -724,6 +724,8 @@ var _searchViewJs = require("./views/searchView.js");
 var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _resultsViewJs = require("./views/resultsView.js");
 var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
+var _bookmarksViewJs = require("./views/bookmarksView.js");
+var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 //Regenerator runtime fa funzionare async await
@@ -741,6 +743,7 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         //Mostrami i risultati anche quando apro la ricetta
         (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultPage());
+        (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
         //Loading recipe
         await _modelJs.loadRecipe(id);
         const { recipe } = _modelJs.state;
@@ -781,9 +784,7 @@ const controlPagination = function(goToPage) {
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
 const controlServings = function(newServings) {
-    console.log('test');
     //Update recipe servings in state
-    console.log(_modelJs.state.recipe);
     //Update view
     _modelJs.updateServings(newServings);
     //Better version :
@@ -791,9 +792,13 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
 };
 const controlAddBookmark = function() {
-    _modelJs.addBookmark(_modelJs.state.recipe);
-    console.log(_modelJs.state.recipe);
+    //Se non è tra i bookmark me la aggiungi
+    if (!_modelJs.state.recipe.bookmarks) _modelJs.addBookmark(_modelJs.state.recipe);
+    else _modelJs.deleteBookmark(_modelJs.state.recipe.id);
     (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
+    //Mostra i bookmark
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+    if (_modelJs.state.bookmarks.length < 1) (0, _bookmarksViewJsDefault.default).renderError();
 };
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function() {
@@ -805,7 +810,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"bzsBv":[function(require,module,exports,__globalThis) {
+},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/bookmarksView.js":"1qGeA"}],"bzsBv":[function(require,module,exports,__globalThis) {
 'use strict';
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2152,6 +2157,8 @@ const addBookmark = function(recipe) {
 const deleteBookmark = function(id) {
     //Trova l'index dell'id del bookmark da eliminare
     const index = state.bookmarks.findIndex((el)=>el.id === id);
+    console.log(state.bookmarks);
+    //Rimuovi il bookmark
     state.bookmarks.splice(index, 1);
     //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
     if (id === state.recipe.id) state.recipe.bookmarks = false;
@@ -3057,12 +3064,12 @@ class View {
         return 'We could not find any recipe. Please try another one!';
     }
     _message = '';
-    //Metodo pubblico
     //Inserisce il markup generato
-    render(data) {
+    render(data, render = true) {
         this._data = data;
         //Markup ora è ciò che _ ritorna
         const markup = this._generateMarkup();
+        if (!render) return markup;
         //Pulsci ricetta
         this._clear();
         //inserisci markup nel parentelement
@@ -3166,6 +3173,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewView = require("./previewView");
+var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
 class resultsView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.results');
     // Il getter legge this._query, che viene salvato da takeQuery()
@@ -3176,19 +3185,29 @@ class resultsView extends (0, _viewDefault.default) {
         this._query = query;
     }
     _generateMarkup() {
-        return this._data.map(this._generatMarkupPreview).join('');
+        return this._data.map((result)=>(0, _previewViewDefault.default).render(result, false)).join('');
     }
-    _generatMarkupPreview(result) {
+}
+exports.default = new resultsView();
+
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./previewView":"6tKHS"}],"6tKHS":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class previewView extends (0, _viewDefault.default) {
+    _parentElement = '';
+    _generateMarkup() {
         const id = window.location.hash.slice(1);
         return `
     <li class="preview">
-            <a class="preview__link ${result.id === id ? 'preview__link--active' : ''}" href="#${result.id}">
+            <a class="preview__link ${this._data.id === id ? 'preview__link--active' : ''}" href="#${this._data.id}">
               <figure class="preview__fig">
-                <img src="${result.image}" alt="${result.title}"/>
+                <img src="${this._data.image}" alt="${this._data.title}"/>
               </figure>
               <div class="preview__data">
-                <h4 class="preview__title">${result.title}</h4>
-                <p class="preview__publisher">${result.publisher}</p>
+                <h4 class="preview__title">${this._data.title}</h4>
+                <p class="preview__publisher">${this._data.publisher}</p>
               </div>
             </a>
           </li>
@@ -3196,7 +3215,7 @@ class resultsView extends (0, _viewDefault.default) {
     `;
     }
 }
-exports.default = new resultsView();
+exports.default = new previewView();
 
 },{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"7NIiB":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -3260,6 +3279,27 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1qGeA":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewView = require("./previewView");
+var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
+class bookmarksView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector('.bookmarks');
+    get _errorMessage() {
+        return `No bookmarks yet . Find a nice recipe and bookmark it `;
+    }
+    takeQuery(query) {
+        this._query = query;
+    }
+    _generateMarkup() {
+        return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join('');
+    }
+}
+exports.default = new bookmarksView();
+
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./previewView":"6tKHS"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map
