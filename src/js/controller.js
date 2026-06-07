@@ -5,6 +5,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import bookmarksView from './views/bookmarksView.js';
 import paginationView from './views/paginationView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 //Tool di polyfill , core-js inserisce metodi e funzionalita es6 in old browsers
 import 'core-js/stable'; //Importo solo la versione stable
@@ -28,6 +29,7 @@ const controlRecipes = async function () {
     //Mostrami i risultati anche quando apro la ricetta
     resultsView.update(model.getSearchResultPage());
 
+    //Aggiorna i bookmark
     bookmarksView.update(model.state.bookmarks);
 
     //Loading recipe
@@ -103,13 +105,28 @@ const controlAddBookmark = function () {
   if (model.state.bookmarks.length < 1) bookmarksView.renderError();
 };
 
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    await model.uploadRecipe(newRecipe);
+  } catch (err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
+};
+
 //Chiamo la funzione handler nel view passando le mie funzioni subscriber
 const init = function () {
+  bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandleAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 
 init();

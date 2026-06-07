@@ -12,6 +12,10 @@ class bookmarksView extends View {
     this._query = query;
   }
 
+  addHandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
+
   _generateMarkup() {
     return this._data
       .map(bookmark => previewView.render(bookmark, false))

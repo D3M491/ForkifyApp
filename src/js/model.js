@@ -126,4 +126,28 @@ const init = function () {
 
 init();
 
-console.log(state.bookmarks);
+//Funzione di debug che permette di eliminare i bookmark in fretta
+const clearBookmarks = function () {
+  localStorage.clear('bookmarks');
+};
+
+clearBookmarks();
+
+export const uploadRecipe = async function (newRecipe) {
+  try {
+    Object.entries(newRecipe)
+      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+      .map(ing => {
+        const ingArr = ing[1].replaceAll(' ', '').split(',');
+        if (ingArr.length !== 3)
+          throw new Error(
+            'Wrong ingredient format , please use the correct format',
+          );
+        const [quantity, unit, description] = ingArr;
+        return { quantity: quantity ? +quantity : null, unit, description };
+      });
+  } catch (err) {
+    throw err;
+  }
+  // const ingredients = Object.entries(newRecipe).filter(entry => )Object.entries(newRecipe)
+};
