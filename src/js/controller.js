@@ -1,5 +1,6 @@
 //Import tutto dal model
 import * as model from './model.js';
+import { MODAL_CLOSE_SEC } from './config.js';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -59,8 +60,6 @@ const controlSearchResults = async function () {
     if (!model.state.search.results || model.state.search.results.length < 1)
       return;
 
-    console.log(model.state.search.results);
-
     //Render results
     resultsView.render(model.getSearchResultPage());
     //Render inital pagination buttons . Passo i dati dello state con pagina ecc
@@ -111,7 +110,20 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
+    //Show loading spinner
+    addRecipeView.renderSpinner();
+
     await model.uploadRecipe(newRecipe);
+
+    //Renderizza la ricetta
+    recipeView.render(model.state.recipe);
+
+    //Success message
+    addRecipeView.renderMessage();
+    //Close form window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     console.error(err);
     addRecipeView.renderError(err.message);

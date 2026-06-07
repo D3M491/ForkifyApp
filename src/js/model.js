@@ -1,7 +1,8 @@
 import async from 'regenerator-runtime';
 import { API_URL } from './config';
 import { RES_PER_PAGE } from './config';
-import { getJSON } from './helpers';
+import { KEY } from './config';
+import { getJSON, sendJSON } from './helpers';
 
 export const state = {
   recipe: {},
@@ -15,23 +16,28 @@ export const state = {
   bookmarks: [],
 };
 
+const createRecipeObject = function (data) {
+  const { recipe } = data.data;
+
+  //Renomino le proprietà dell'oggetto dell api
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.sourceUrl,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    //Se non c'è una recipe key , non accade nulla , altrimenti me la assegni a key
+    ...(recipe.key && { key: recipe.key }),
+  };
+};
+
 export const loadRecipe = async function (id) {
   try {
     const data = await getJSON(`${API_URL}/${id}`);
-    //creating copy of object
-    const { recipe } = data.data;
-
-    //Renomino le proprietà dell'oggetto dell api
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.sourceUrl,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
+    state.recipe = createRecipeObject(data);
 
     //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
     if (state.bookmarks.some(bookmark => bookmark.id === id))
@@ -76,7 +82,6 @@ export const getSearchResultPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
-  console.log(state.recipe.servings);
   //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
@@ -87,7 +92,6 @@ export const updateServings = function (newServings) {
 
   //Aggiorno nello state
   state.recipe.servings = newServings;
-  console.log(state.recipe.servings);
 };
 
 const persistBookmarks = function () {
@@ -109,7 +113,6 @@ export const addBookmark = function (recipe) {
 export const deleteBookmark = function (id) {
   //Trova l'index dell'id del bookmark da eliminare
   const index = state.bookmarks.findIndex(el => el.id === id);
-  console.log(state.bookmarks);
   //Rimuovi il bookmark
   state.bookmarks.splice(index, 1);
   //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
@@ -135,7 +138,7 @@ clearBookmarks();
 
 export const uploadRecipe = async function (newRecipe) {
   try {
-    Object.entries(newRecipe)
+    const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
         const ingArr = ing[1].replaceAll(' ', '').split(',');
@@ -146,8 +149,25 @@ export const uploadRecipe = async function (newRecipe) {
         const [quantity, unit, description] = ingArr;
         return { quantity: quantity ? +quantity : null, unit, description };
       });
+
+    const recipe = {
+      title: newRecipe.title,
+      publisher: newRecipe.publisher,
+      source_url: newRecipe.sourceUrl,
+      image_url: newRecipe.image,
+      servings: +newRecipe.servings,
+      cooking_time: +newRecipe.cookingTime,
+      ingredients,
+    };
+
+    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    //Salva nello state
+    state.recipe = createRecipeObject(data);
+    //Mettila nei bookmark
+    addBookmark(state.recipe);
   } catch (err) {
     throw err;
   }
+
   // const ingredients = Object.entries(newRecipe).filter(entry => )Object.entries(newRecipe)
 };

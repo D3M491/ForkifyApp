@@ -21,7 +21,6 @@ class RecipeView extends View {
 
       //???
       const updateTo = +btn.dataset.updateTo;
-      console.log(btn);
 
       if (updateTo > 0) handler(updateTo);
     });
@@ -32,7 +31,6 @@ class RecipeView extends View {
       const btn = e.target.closest('.btn--bookmark');
       if (!btn) return;
 
-      console.log(btn);
       handler();
     });
   }

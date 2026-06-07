@@ -718,6 +718,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
+var _configJs = require("./config.js");
 var _recipeView = require("./views/recipeView");
 var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
 var _searchViewJs = require("./views/searchView.js");
@@ -767,7 +768,6 @@ const controlSearchResults = async function() {
         //Load search results
         await _modelJs.loadSearchResults(query);
         if (!_modelJs.state.search.results || _modelJs.state.search.results.length < 1) return;
-        console.log(_modelJs.state.search.results);
         //Render results
         (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultPage());
         //Render inital pagination buttons . Passo i dati dello state con pagina ecc
@@ -808,7 +808,17 @@ const controlBookmarks = function() {
 };
 const controlAddRecipe = async function(newRecipe) {
     try {
+        //Show loading spinner
+        (0, _addRecipeViewJsDefault.default).renderSpinner();
         await _modelJs.uploadRecipe(newRecipe);
+        //Renderizza la ricetta
+        (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
+        //Success message
+        (0, _addRecipeViewJsDefault.default).renderMessage();
+        //Close form window
+        setTimeout(function() {
+            (0, _addRecipeViewJsDefault.default).toggleWindow();
+        }, (0, _configJs.MODAL_CLOSE_SEC) * 1000);
     } catch (err) {
         console.error(err);
         (0, _addRecipeViewJsDefault.default).renderError(err.message);
@@ -826,7 +836,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/bookmarksView.js":"1qGeA","./views/addRecipeView.js":"8AWnP"}],"bzsBv":[function(require,module,exports,__globalThis) {
+},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/bookmarksView.js":"1qGeA","./views/addRecipeView.js":"8AWnP","./config.js":"2hPh4"}],"bzsBv":[function(require,module,exports,__globalThis) {
 'use strict';
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2104,22 +2114,28 @@ const state = {
     },
     bookmarks: []
 };
+const createRecipeObject = function(data) {
+    const { recipe } = data.data;
+    //Renomino le proprietà dell'oggetto dell api
+    return {
+        id: recipe.id,
+        title: recipe.title,
+        publisher: recipe.publisher,
+        sourceUrl: recipe.sourceUrl,
+        image: recipe.image_url,
+        servings: recipe.servings,
+        cookingTime: recipe.cooking_time,
+        ingredients: recipe.ingredients,
+        //Se non c'è una recipe key , non accade nulla , altrimenti me la assegni a key
+        ...recipe.key && {
+            key: recipe.key
+        }
+    };
+};
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}/${id}`);
-        //creating copy of object
-        const { recipe } = data.data;
-        //Renomino le proprietà dell'oggetto dell api
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.sourceUrl,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
+        state.recipe = createRecipeObject(data);
         //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarks = true;
         else state.recipe.bookmarks = false;
@@ -2154,7 +2170,6 @@ const getSearchResultPage = function(page = state.search.page) {
     return state.search.results.slice(start, end);
 };
 const updateServings = function(newServings) {
-    console.log(state.recipe.servings);
     //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
     state.recipe.ingredients.forEach((ing)=>{
         ing.quantity = ing.quantity * newServings / state.recipe.servings;
@@ -2163,7 +2178,6 @@ const updateServings = function(newServings) {
     });
     //Aggiorno nello state
     state.recipe.servings = newServings;
-    console.log(state.recipe.servings);
 };
 const persistBookmarks = function() {
     //Passo l'oggetto convertito in stringa
@@ -2179,7 +2193,6 @@ const addBookmark = function(recipe) {
 const deleteBookmark = function(id) {
     //Trova l'index dell'id del bookmark da eliminare
     const index = state.bookmarks.findIndex((el)=>el.id === id);
-    console.log(state.bookmarks);
     //Rimuovi il bookmark
     state.bookmarks.splice(index, 1);
     //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
@@ -2200,7 +2213,7 @@ const clearBookmarks = function() {
 clearBookmarks();
 const uploadRecipe = async function(newRecipe) {
     try {
-        Object.entries(newRecipe).filter((entry)=>entry[0].startsWith('ingredient') && entry[1] !== '').map((ing)=>{
+        const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith('ingredient') && entry[1] !== '').map((ing)=>{
             const ingArr = ing[1].replaceAll(' ', '').split(',');
             if (ingArr.length !== 3) throw new Error('Wrong ingredient format , please use the correct format');
             const [quantity, unit, description] = ingArr;
@@ -2210,6 +2223,20 @@ const uploadRecipe = async function(newRecipe) {
                 description
             };
         });
+        const recipe = {
+            title: newRecipe.title,
+            publisher: newRecipe.publisher,
+            source_url: newRecipe.sourceUrl,
+            image_url: newRecipe.image,
+            servings: +newRecipe.servings,
+            cooking_time: +newRecipe.cookingTime,
+            ingredients
+        };
+        const data = await (0, _helpers.sendJSON)(`${(0, _config.API_URL)}?key=${(0, _config.KEY)}`, recipe);
+        //Salva nello state
+        state.recipe = createRecipeObject(data);
+        //Mettila nei bookmark
+        addBookmark(state.recipe);
     } catch (err) {
         throw err;
     }
@@ -2809,9 +2836,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "RES_PER_PAGE", ()=>RES_PER_PAGE);
+parcelHelpers.export(exports, "KEY", ()=>KEY);
+parcelHelpers.export(exports, "MODAL_CLOSE_SEC", ()=>MODAL_CLOSE_SEC);
 const API_URL = 'https://forkify-api.jonas.io/api/v2/recipes';
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
+const KEY = 'b4de1629-0c67-4a4f-8f60-286b4415f78b';
+const MODAL_CLOSE_SEC = 2.5;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
@@ -2848,6 +2879,7 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
 var _config = require("./config");
 //Timeout che ritorna un reject message dopo x secondi
 const timeout = function(s) {
@@ -2861,6 +2893,27 @@ const getJSON = async function(url) {
     try {
         const res = await Promise.race([
             fetch(url),
+            timeout((0, _config.TIMEOUT_SEC))
+        ]);
+        const data = await res.json();
+        if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+        return data;
+    } catch (err) {
+        throw err;
+    }
+};
+const sendJSON = async function(url, uploadData) {
+    try {
+        //Manda i dati all api
+        const fetchPro = fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(uploadData)
+        });
+        const res = await Promise.race([
+            fetchPro,
             timeout((0, _config.TIMEOUT_SEC))
         ]);
         const data = await res.json();
@@ -2899,7 +2952,6 @@ class RecipeView extends (0, _viewDefault.default) {
             if (!btn) return;
             //???
             const updateTo = +btn.dataset.updateTo;
-            console.log(btn);
             if (updateTo > 0) handler(updateTo);
         });
     }
@@ -2907,7 +2959,6 @@ class RecipeView extends (0, _viewDefault.default) {
         this._parentElement.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn--bookmark');
             if (!btn) return;
-            console.log(btn);
             handler();
         });
     }
@@ -3282,10 +3333,8 @@ class paginationView extends (0, _viewDefault.default) {
         //Delegation
         this._parentElement.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn--inline');
-            console.log(btn);
             if (!btn) return;
             const goToPage = +btn.dataset.goto;
-            console.log(goToPage);
             handler(goToPage);
         });
     }
@@ -3293,7 +3342,6 @@ class paginationView extends (0, _viewDefault.default) {
         const currentPage = this._data.page;
         //Calcolo le pagine
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
-        console.log(numPages);
         //Page 1 and there are other pages
         if (currentPage === 1 && numPages > 1) return `
           <button data-goto = "${currentPage + 1}" class="btn--inline pagination__btn--next">
@@ -3364,6 +3412,7 @@ var _iconsSvg = require("url:../../img/icons.svg"); //Parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class addRecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.upload');
+    _message = 'Recipe was successfully uploaded';
     _window = document.querySelector('.add-recipe-window');
     _overlay = document.querySelector('.overlay');
     _btnOpen = document.querySelector('.nav__btn--add-recipe');
