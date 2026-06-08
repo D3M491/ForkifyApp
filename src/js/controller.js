@@ -110,6 +110,7 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
+    console.log(newRecipe);
     //Show loading spinner
     addRecipeView.renderSpinner();
 
@@ -120,6 +121,13 @@ const controlAddRecipe = async function (newRecipe) {
 
     //Success message
     addRecipeView.renderMessage();
+
+    //Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    //Change id in the url . pushState allow to change url without reloading
+    window.history.pushState(null, '', `#${model.state.recipe.id}`); //3 arg , 1) state , 2) title , 3) url
+
     //Close form window
     setTimeout(function () {
       addRecipeView.toggleWindow();

@@ -2,7 +2,7 @@ import async from 'regenerator-runtime';
 import { API_URL } from './config';
 import { RES_PER_PAGE } from './config';
 import { KEY } from './config';
-import { getJSON, sendJSON } from './helpers';
+import { AJAX } from './helpers';
 
 export const state = {
   recipe: {},
@@ -36,7 +36,7 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}/${id}`);
+    const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
     //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
@@ -53,7 +53,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
     state.search.results = data.data.recipes.map(rec => {
       return {
         id: rec.id,
@@ -121,7 +121,7 @@ export const deleteBookmark = function (id) {
 };
 
 const init = function () {
-  //Ottieni la
+  //Ottieni la memoria
   const storage = localStorage.getItem('bookmarks');
   //Passa la memoria come oggetto solo se non è vuota
   if (storage) state.bookmarks = JSON.parse(storage);
@@ -160,7 +160,7 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
 
-    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     //Salva nello state
     state.recipe = createRecipeObject(data);
     //Mettila nei bookmark
