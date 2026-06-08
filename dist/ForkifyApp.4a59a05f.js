@@ -207,7 +207,7 @@
       });
     }
   }
-})({"appxp":[function(require,module,exports,__globalThis) {
+})({"5DuvQ":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -714,7 +714,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"7dWZ8":[function(require,module,exports,__globalThis) {
-//Import tutto dal model
+//Import everything from the model
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
@@ -731,27 +731,27 @@ var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 var _addRecipeViewJs = require("./views/addRecipeView.js");
 var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
-//Regenerator runtime fa funzionare async await
-var _runtime = require("regenerator-runtime/runtime"); //Importo solo il runtime7s
-//Questo non è js ma viene da parcel
+//Regenerator runtime makes async/await work
+var _runtime = require("regenerator-runtime/runtime"); //Importing only the runtime
+//This is not JS but comes from Parcel
 // if (module.hot) {
 //   module.hot.accept();
 // }
 const controlRecipes = async function() {
     try {
-        //Ottengo l'url della barra di ricerca così
+        //Getting the URL from the search bar this way
         const id = window.location.hash.slice(1);
         if (!id) return;
-        //Per lo spinner semplicemente lo inserisco prima del fetch . Poi il contenuto del fetch sostituirà lo spinner
+        //For the spinner, simply insert it before the fetch. Then the fetch content will replace the spinner
         (0, _recipeViewDefault.default).renderSpinner();
-        //Mostrami i risultati anche quando apro la ricetta
+        //Also show results when opening the recipe
         (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultPage());
-        //Aggiorna i bookmark
+        //Update bookmarks
         (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
         //Loading recipe
         await _modelJs.loadRecipe(id);
         const { recipe } = _modelJs.state;
-        //Chiama il metodo render della classe recipeView passando la ricetta
+        //Call the render method of recipeView passing the recipe
         (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
         (0, _recipeViewDefault.default).renderError();
@@ -770,16 +770,16 @@ const controlSearchResults = async function() {
         if (!_modelJs.state.search.results || _modelJs.state.search.results.length < 1) return;
         //Render results
         (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultPage());
-        //Render inital pagination buttons . Passo i dati dello state con pagina ecc
+        //Render initial pagination buttons. Passing state data with page info etc.
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
-        //Se vai in errore renderizzalo
+        //If an error occurs, render it
         (0, _resultsViewJsDefault.default).renderError();
-        //E resetta i pulsanti
+        //And reset the buttons
         (0, _paginationViewJsDefault.default)._clear();
     }
 };
-//Nuovo controller per le pagine
+//New controller for pages
 const controlPagination = function(goToPage) {
     //Render new results
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultPage(goToPage));
@@ -795,11 +795,11 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
 };
 const controlAddBookmark = function() {
-    //Se non è tra i bookmark me la aggiungi
+    //If not bookmarked yet, add it
     if (!_modelJs.state.recipe.bookmarks) _modelJs.addBookmark(_modelJs.state.recipe);
     else _modelJs.deleteBookmark(_modelJs.state.recipe.id);
     (0, _recipeViewDefault.default).update(_modelJs.state.recipe);
-    //Mostra i bookmark
+    //Show bookmarks
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
     if (_modelJs.state.bookmarks.length < 1) (0, _bookmarksViewJsDefault.default).renderError();
 };
@@ -812,7 +812,7 @@ const controlAddRecipe = async function(newRecipe) {
         //Show loading spinner
         (0, _addRecipeViewJsDefault.default).renderSpinner();
         await _modelJs.uploadRecipe(newRecipe);
-        //Renderizza la ricetta
+        //Render the recipe
         (0, _recipeViewDefault.default).render(_modelJs.state.recipe);
         //Success message
         (0, _addRecipeViewJsDefault.default).renderMessage();
@@ -829,7 +829,7 @@ const controlAddRecipe = async function(newRecipe) {
         (0, _addRecipeViewJsDefault.default).renderError(err.message);
     }
 };
-//Chiamo la funzione handler nel view passando le mie funzioni subscriber
+//Calling the handler function in the view passing my subscriber functions
 const init = function() {
     (0, _bookmarksViewJsDefault.default).addHandlerRender(controlBookmarks);
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
@@ -841,7 +841,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/bookmarksView.js":"1qGeA","./config.js":"2hPh4","./views/addRecipeView.js":"8AWnP"}],"bzsBv":[function(require,module,exports,__globalThis) {
+},{"core-js/modules/web.immediate.js":"bzsBv","./model.js":"3QBkH","./config.js":"2hPh4","./views/recipeView":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/bookmarksView.js":"1qGeA","./views/paginationView.js":"7NIiB","./views/addRecipeView.js":"8AWnP","regenerator-runtime/runtime":"f6ot0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"bzsBv":[function(require,module,exports,__globalThis) {
 'use strict';
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2110,7 +2110,7 @@ var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
     recipe: {},
-    //Salvo la ricerca nello state creando un nuovo oggetto con query e risultati
+    //Saving the search in state by creating a new object with query and results
     search: {
         query: '',
         results: [],
@@ -2121,7 +2121,7 @@ const state = {
 };
 const createRecipeObject = function(data) {
     const { recipe } = data.data;
-    //Renomino le proprietà dell'oggetto dell api
+    //Renaming the API object properties
     return {
         id: recipe.id,
         title: recipe.title,
@@ -2131,7 +2131,7 @@ const createRecipeObject = function(data) {
         servings: recipe.servings,
         cookingTime: recipe.cooking_time,
         ingredients: recipe.ingredients,
-        //Se non c'è una recipe key , non accade nulla , altrimenti me la assegni a key
+        //If there is no recipe key, nothing happens; otherwise assign it to key
         ...recipe.key && {
             key: recipe.key
         }
@@ -2141,7 +2141,7 @@ const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}/${id}?key=${(0, _config.KEY)}`);
         state.recipe = createRecipeObject(data);
-        //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
+        //Check if any bookmark's id matches the current recipe's id
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarks = true;
         else state.recipe.bookmarks = false;
     } catch (err) {
@@ -2164,7 +2164,7 @@ const loadSearchResults = async function(query) {
                 }
             };
         });
-        //Parto sempre da pagina 1 dopo una nuova ricerca
+        //Always start from page 1 after a new search
         state.search.page = 1;
         if (state.search.results.length === 0) throw new Error('err');
     } catch (err) {
@@ -2178,43 +2178,43 @@ const getSearchResultPage = function(page = state.search.page) {
     return state.search.results.slice(start, end);
 };
 const updateServings = function(newServings) {
-    //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
+    //For each ingredient, update the quantity according to the proportion
     state.recipe.ingredients.forEach((ing)=>{
         ing.quantity = ing.quantity * newServings / state.recipe.servings;
     //Proporzione
     //New quantity = old quantity  * new serving / old serving
     });
-    //Aggiorno nello state
+    //Update in state
     state.recipe.servings = newServings;
 };
 const persistBookmarks = function() {
-    //Passo l'oggetto convertito in stringa
+    //Passing the object converted to a string
     localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 const addBookmark = function(recipe) {
-    //Aggiungi al bookmark
+    //Add to bookmarks
     state.bookmarks.push(recipe);
-    //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
+    //Mark the current recipe only if it's the same one being bookmarked
     if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
     persistBookmarks();
 };
 const deleteBookmark = function(id) {
-    //Trova l'index dell'id del bookmark da eliminare
+    //Find the index of the bookmark id to delete
     const index = state.bookmarks.findIndex((el)=>el.id === id);
-    //Rimuovi il bookmark
+    //Remove the bookmark
     state.bookmarks.splice(index, 1);
-    //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
+    //Unmark the current recipe only if it's the same one that was bookmarked
     if (id === state.recipe.id) state.recipe.bookmarks = false;
     persistBookmarks();
 };
 const init = function() {
-    //Ottieni la memoria
+    //Get the stored data
     const storage = localStorage.getItem('bookmarks');
-    //Passa la memoria come oggetto solo se non è vuota
+    //Parse the stored data as an object only if it's not empty
     if (storage) state.bookmarks = JSON.parse(storage);
 };
 init();
-//Funzione di debug che permette di eliminare i bookmark in fretta
+//Debug function that allows quickly clearing all bookmarks
 const clearBookmarks = function() {
     localStorage.clear('bookmarks');
 };
@@ -2242,9 +2242,9 @@ const uploadRecipe = async function(newRecipe) {
             ingredients
         };
         const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}?key=${(0, _config.KEY)}`, recipe);
-        //Salva nello state
+        //Save in state
         state.recipe = createRecipeObject(data);
-        //Mettila nei bookmark
+        //Add it to bookmarks
         addBookmark(state.recipe);
     } catch (err) {
         throw err;
@@ -2839,7 +2839,7 @@ try {
 
 },{}],"2hPh4":[function(require,module,exports,__globalThis) {
 //We want to put here some variables that can be used in many files . Not avery var but only the one useful
-//Uso upper case perche questa costante non cambierà , è una buona pratica
+//Using uppercase because this constant will not change — it's a good practice
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
@@ -2889,7 +2889,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "AJAX", ()=>AJAX);
 var _config = require("./config");
-//Timeout che ritorna un reject message dopo x secondi
+//Timeout that returns a reject message after x seconds
 const timeout = function(s) {
     return new Promise(function(_, reject) {
         setTimeout(function() {
@@ -2899,7 +2899,7 @@ const timeout = function(s) {
 };
 const AJAX = async function(url, uploadData) {
     try {
-        //Se c'è un uploadData , fai una richiesta POST altrimenti una GET
+        //If uploadData is provided, make a POST request, otherwise a GET
         const fetchPro = uploadData ? fetch(url, {
             method: 'POST',
             headers: {
@@ -2907,7 +2907,7 @@ const AJAX = async function(url, uploadData) {
             },
             body: JSON.stringify(uploadData)
         }) : fetch(url);
-        //Race tra la nostra fetch e il timeout .Se la richiesta impiega piu di 10s fallisce
+        //Race between our fetch and the timeout. If the request takes more than 10s it fails
         const res = await Promise.race([
             fetchPro,
             timeout((0, _config.TIMEOUT_SEC))
@@ -2930,11 +2930,11 @@ const AJAX = async function(url, uploadData) {
  // };
  // export const sendJSON = async function (url, uploadData) {
  //   try {
- //     //Manda i dati all api
+ //     //Send data to the API
  //     const fetchPro = fetch(url, {
  //       method: 'POST',
  //       headers: {
- //         'Content-Type': 'application/json', //In che formato sarà il contenuto
+ //         'Content-Type': 'application/json', //Format of the content
  //       },
  //       body: JSON.stringify(uploadData),
  //     });
@@ -2957,12 +2957,12 @@ var _fracty = require("fracty");
 var _fractyDefault = parcelHelpers.interopDefault(_fracty);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
-//Ho switchato da private fields con # a protected con _
+//Switched from private fields with # to protected with _
 class RecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.recipe');
-    //Handler è la mia subsciber function
+    //Handler is my subscriber function
     addHandlerRender(handler) {
-        //Ascoltando il cambio di hash nella barra di ricerca e il load , poi chiamo la funzione
+        //Listening for hash change and load events, then calling the handler function
         [
             'hashchange',
             'load'
@@ -2971,7 +2971,7 @@ class RecipeView extends (0, _viewDefault.default) {
     addHandlerUpdateServings(handler) {
         this._parentElement.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn--update-servings');
-            //Se non ho cliccato sul btn esci
+            //If the button was not clicked, exit
             if (!btn) return;
             //???
             const updateTo = +btn.dataset.updateTo;
@@ -2985,9 +2985,9 @@ class RecipeView extends (0, _viewDefault.default) {
             handler();
         });
     }
-    //genera markup e ritornalo
+    //Generate markup and return it
     _generateMarkup() {
-        //Markup della recipe . Ora le voci le prendo da this._data
+        //Recipe markup. Items are now taken from this._data
         return `<figure class="recipe__fig">
           <img src="${this._data.image}" alt="Tomato" class="recipe__img" />
           <h1 class="recipe__title">
@@ -3038,7 +3038,7 @@ class RecipeView extends (0, _viewDefault.default) {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${this._data.ingredients.map(this._generateMarkupIng).join('') //Transformato in stringa
+          ${this._data.ingredients.map(this._generateMarkupIng).join('') //Converted to string
         }
 
           </ul>
@@ -3064,7 +3064,7 @@ class RecipeView extends (0, _viewDefault.default) {
         </div>`;
     }
     _generateMarkupIng(ing) {
-        //Ciclo sull array e ritorno una stringa di html che poi inseriro come adjacent
+        //Loop through the array and return an HTML string to insert as adjacent HTML
         return `
             <li class="recipe__ingredient">
               <svg class="recipe__icon">
@@ -3079,7 +3079,7 @@ class RecipeView extends (0, _viewDefault.default) {
             `;
     }
 }
-//Non passo nessun dato e non ho bisogno di nessun costruttore
+//No data is passed and no constructor is needed
 exports.default = new RecipeView();
 
 },{"url:../../img/icons.svg":"fd0vu","fracty":"gsPKI","./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"fd0vu":[function(require,module,exports,__globalThis) {
@@ -3200,15 +3200,15 @@ class View {
    * @this {Object} View instance
    * @author Manuel
    * @todo Finish implementation
-   */ //Inserisce il markup generato
+   */ //Inserts the generated markup
     render(data, render = true) {
         this._data = data;
-        //Markup ora è ciò che _ ritorna
+        //Markup is now what _generateMarkup returns
         const markup = this._generateMarkup();
         if (!render) return markup;
-        //Pulsci ricetta
+        //Clear recipe
         this._clear();
-        //inserisci markup nel parentelement
+        //Insert markup in the parent element
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     update(data) {
@@ -3216,19 +3216,19 @@ class View {
         const newMarkup = this._generateMarkup();
         //We are gonna compare this new markup with html existing
         const newDOM = document.createRange().createContextualFragment(newMarkup); //This method convert the string into real dom node
-        const newElements = Array.from(newDOM.querySelectorAll('*')); //Elementi presenti ora + il nuovo markup
-        const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elementi presenti ora sulla pagina
+        const newElements = Array.from(newDOM.querySelectorAll('*')); //Current elements + the new markup
+        const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elements currently on the page
         //Looping over both array
         newElements.forEach((newEl, i)=>{
             const curEl = curElements[i];
-            //Controllo quali nodi son uguali e quali no
+            //Checking which nodes are equal and which are not
             // console.log(curEl, newEl.isEqualNode(curEl));
-            //Node value permette di verificare se il nodo è di tipo testo o meno. A noi interessa modificare solo dove il contenuto è puro testo . Seleziono prima first child per ottenere il TEXT NODE che è figlio dell' ELEMENT NODE
+            //nodeValue checks whether the node is a text node. We only update where content is pure text. We select firstChild to get the TEXT NODE which is a child of the ELEMENT NODE
             //Update changed text
             if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '' //Se il dom new element è diverso dal vecchio e se il textcontent del nodo figlio è diverso da ""
             ) curEl.textContent = newEl.textContent;
             //Update changed attributes
-            if (!newEl.isEqualNode(curEl)) //Sostitusci i vecchi valori di ATTRIBUTO con i nuovi aggiornati
+            if (!newEl.isEqualNode(curEl)) //Replace old ATTRIBUTE values with the updated new ones
             Array.from(newEl.attributes).forEach((attr)=>curEl.setAttribute(attr.name, attr.value));
         });
     }
@@ -3243,11 +3243,11 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
-    //Pulisce il campo ricetta
+    //Clears the recipe field
     _clear() {
         this._parentElement.innerHTML = '';
     }
-    //Di default metto il messaggio custom
+    //By default uses the custom error message
     renderError(message = this._errorMessage) {
         const markup = `
       
@@ -3262,7 +3262,7 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
-    //Messaggio normale che inseriremo piu avanti
+    //Standard success message
     renderMessage(message = this._message) {
         const markup = `
       
@@ -3300,7 +3300,7 @@ class searchView {
     _clearInput() {
         this._parentEl.querySelector('.search__field').value = '';
     }
-    //Publisher . Mi esegui la funzione ottenuta tramite arg al submit del parent el form
+    //Publisher. Executes the function received as argument when the parent form element is submitted
     addHandlerSearch(handler) {
         this._parentEl.addEventListener('submit', function(e) {
             //Preventing page reload
@@ -3320,7 +3320,7 @@ var _previewView = require("./previewView");
 var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
 class resultsView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector('.results');
-    // Il getter legge this._query, che viene salvato da takeQuery()
+    // The getter reads this._query, which is saved by takeQuery()
     get _errorMessage() {
         return `We could not find any recipe containing "${this._query}" . Please try another one!`;
     }
@@ -3333,7 +3333,7 @@ class resultsView extends (0, _viewDefault.default) {
 }
 exports.default = new resultsView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./previewView":"6tKHS"}],"6tKHS":[function(require,module,exports,__globalThis) {
+},{"./View":"jSw21","./previewView":"6tKHS","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6tKHS":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
@@ -3367,7 +3367,31 @@ class previewView extends (0, _viewDefault.default) {
 }
 exports.default = new previewView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}],"7NIiB":[function(require,module,exports,__globalThis) {
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1qGeA":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _previewView = require("./previewView");
+var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
+class bookmarksView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector('.bookmarks');
+    get _errorMessage() {
+        return `No bookmarks yet . Find a nice recipe and bookmark it `;
+    }
+    takeQuery(query) {
+        this._query = query;
+    }
+    addHandlerRender(handler) {
+        window.addEventListener('load', handler);
+    }
+    _generateMarkup() {
+        return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join('');
+    }
+}
+exports.default = new bookmarksView();
+
+},{"./View":"jSw21","./previewView":"6tKHS","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"7NIiB":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
@@ -3387,7 +3411,7 @@ class paginationView extends (0, _viewDefault.default) {
     }
     _generateMarkup() {
         const currentPage = this._data.page;
-        //Calcolo le pagine
+        //Calculate the total number of pages
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
         //Page 1 and there are other pages
         if (currentPage === 1 && numPages > 1) return `
@@ -3426,31 +3450,7 @@ class paginationView extends (0, _viewDefault.default) {
 }
 exports.default = new paginationView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1qGeA":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _view = require("./View");
-var _viewDefault = parcelHelpers.interopDefault(_view);
-var _previewView = require("./previewView");
-var _previewViewDefault = parcelHelpers.interopDefault(_previewView);
-class bookmarksView extends (0, _viewDefault.default) {
-    _parentElement = document.querySelector('.bookmarks');
-    get _errorMessage() {
-        return `No bookmarks yet . Find a nice recipe and bookmark it `;
-    }
-    takeQuery(query) {
-        this._query = query;
-    }
-    addHandlerRender(handler) {
-        window.addEventListener('load', handler);
-    }
-    _generateMarkup() {
-        return this._data.map((bookmark)=>(0, _previewViewDefault.default).render(bookmark, false)).join('');
-    }
-}
-exports.default = new bookmarksView();
-
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./previewView":"6tKHS"}],"8AWnP":[function(require,module,exports,__globalThis) {
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"8AWnP":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
@@ -3464,7 +3464,7 @@ class addRecipeView extends (0, _viewDefault.default) {
     _overlay = document.querySelector('.overlay');
     _btnOpen = document.querySelector('.nav__btn--add-recipe');
     _btnClose = document.querySelector('.btn--close-modal');
-    //Non la chiamo nel controller ma direttamente qui nel costruttore
+    //Not called in the controller but directly here in the constructor
     constructor(){
         super();
         this._addHandlerShowWindow();
@@ -3497,6 +3497,6 @@ class addRecipeView extends (0, _viewDefault.default) {
 }
 exports.default = new addRecipeView();
 
-},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["appxp","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
+},{"./View":"jSw21","url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5DuvQ","7dWZ8"], "7dWZ8", "parcelRequire3a11", {}, "./", "/")
 
 //# sourceMappingURL=ForkifyApp.4a59a05f.js.map
