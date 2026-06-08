@@ -1,7 +1,7 @@
 //Functions that we use over and over
 import { TIMEOUT_SEC } from './config';
 
-//Timeout che ritorna un reject message dopo x secondi
+//Timeout that returns a reject message after x seconds
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -13,18 +13,18 @@ const timeout = function (s) {
 //Undefined for upload data if not passed
 export const AJAX = async function (url, uploadData = undefined) {
   try {
-    //Se c'è un uploadData , fai una richiesta POST altrimenti una GET
+    //If uploadData is provided, make a POST request, otherwise a GET
     const fetchPro = uploadData
       ? fetch(url, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json', //In che formato sarà il contenuto
+            'Content-Type': 'application/json', //Format of the content
           },
           body: JSON.stringify(uploadData),
         })
       : fetch(url);
 
-    //Race tra la nostra fetch e il timeout .Se la richiesta impiega piu di 10s fallisce
+    //Race between our fetch and the timeout. If the request takes more than 10s it fails
     const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
     const data = await res.json();
 
@@ -49,11 +49,11 @@ export const AJAX = async function (url, uploadData = undefined) {
 
 // export const sendJSON = async function (url, uploadData) {
 //   try {
-//     //Manda i dati all api
+//     //Send data to the API
 //     const fetchPro = fetch(url, {
 //       method: 'POST',
 //       headers: {
-//         'Content-Type': 'application/json', //In che formato sarà il contenuto
+//         'Content-Type': 'application/json', //Format of the content
 //       },
 //       body: JSON.stringify(uploadData),
 //     });

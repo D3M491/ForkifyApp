@@ -10,7 +10,7 @@ class addRecipeView extends View {
   _btnOpen = document.querySelector('.nav__btn--add-recipe');
   _btnClose = document.querySelector('.btn--close-modal');
 
-  //Non la chiamo nel controller ma direttamente qui nel costruttore
+  //Not called in the controller but directly here in the constructor
   constructor() {
     super();
     this._addHandlerShowWindow();

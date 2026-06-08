@@ -4,7 +4,7 @@ import previewView from './previewView';
 class resultsView extends View {
   _parentElement = document.querySelector('.results');
 
-  // Il getter legge this._query, che viene salvato da takeQuery()
+  // The getter reads this._query, which is saved by takeQuery()
   get _errorMessage() {
     return `We could not find any recipe containing "${this._query}" . Please try another one!`;
   }

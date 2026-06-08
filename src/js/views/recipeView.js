@@ -3,20 +3,20 @@ import icons from 'url:../../img/icons.svg'; //PArcel 2
 import Fraction from 'fracty';
 import View from './View';
 
-//Ho switchato da private fields con # a protected con _
+//Switched from private fields with # to protected with _
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
 
-  //Handler è la mia subsciber function
+  //Handler is my subscriber function
   addHandlerRender(handler) {
-    //Ascoltando il cambio di hash nella barra di ricerca e il load , poi chiamo la funzione
+    //Listening for hash change and load events, then calling the handler function
     ['hashchange', 'load'].forEach(e => window.addEventListener(e, handler));
   }
 
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
-      //Se non ho cliccato sul btn esci
+      //If the button was not clicked, exit
       if (!btn) return;
 
       //???
@@ -35,9 +35,9 @@ class RecipeView extends View {
     });
   }
 
-  //genera markup e ritornalo
+  //Generate markup and return it
   _generateMarkup() {
-    //Markup della recipe . Ora le voci le prendo da this._data
+    //Recipe markup. Items are now taken from this._data
     return `<figure class="recipe__fig">
           <img src="${this._data.image}" alt="Tomato" class="recipe__img" />
           <h1 class="recipe__title">
@@ -89,7 +89,7 @@ class RecipeView extends View {
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
           ${
-            this._data.ingredients.map(this._generateMarkupIng).join('') //Transformato in stringa
+            this._data.ingredients.map(this._generateMarkupIng).join('') //Converted to string
           }
 
           </ul>
@@ -118,7 +118,7 @@ class RecipeView extends View {
   }
 
   _generateMarkupIng(ing) {
-    //Ciclo sull array e ritorno una stringa di html che poi inseriro come adjacent
+    //Loop through the array and return an HTML string to insert as adjacent HTML
     return `
             <li class="recipe__ingredient">
               <svg class="recipe__icon">
@@ -134,5 +134,5 @@ class RecipeView extends View {
   }
 }
 
-//Non passo nessun dato e non ho bisogno di nessun costruttore
+//No data is passed and no constructor is needed
 export default new RecipeView();

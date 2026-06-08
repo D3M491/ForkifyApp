@@ -6,7 +6,7 @@ import { AJAX } from './helpers';
 
 export const state = {
   recipe: {},
-  //Salvo la ricerca nello state creando un nuovo oggetto con query e risultati
+  //Saving the search in state by creating a new object with query and results
   search: {
     query: '',
     results: [],
@@ -19,7 +19,7 @@ export const state = {
 const createRecipeObject = function (data) {
   const { recipe } = data.data;
 
-  //Renomino le proprietà dell'oggetto dell api
+  //Renaming the API object properties
   return {
     id: recipe.id,
     title: recipe.title,
@@ -29,7 +29,7 @@ const createRecipeObject = function (data) {
     servings: recipe.servings,
     cookingTime: recipe.cooking_time,
     ingredients: recipe.ingredients,
-    //Se non c'è una recipe key , non accade nulla , altrimenti me la assegni a key
+    //If there is no recipe key, nothing happens; otherwise assign it to key
     ...(recipe.key && { key: recipe.key }),
   };
 };
@@ -39,7 +39,7 @@ export const loadRecipe = async function (id) {
     const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
-    //Controlla se l'id di qualcuno dei bookmark corrisponde all'id della ricetta corrente
+    //Check if any bookmark's id matches the current recipe's id
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarks = true;
     else state.recipe.bookmarks = false;
@@ -64,7 +64,7 @@ export const loadSearchResults = async function (query) {
       };
     });
 
-    //Parto sempre da pagina 1 dopo una nuova ricerca
+    //Always start from page 1 after a new search
     state.search.page = 1;
 
     if (state.search.results.length === 0) throw new Error('err');
@@ -73,7 +73,7 @@ export const loadSearchResults = async function (query) {
   }
 };
 
-//Setto pagina 1 di default , definisco un inizio e una fine calcolati dinamicamente
+//Setting page 1 as default, defining a dynamically calculated start and end
 export const getSearchResultPage = function (page = state.search.page) {
   state.search.page = page;
   const start = (page - 1) * state.search.resultsPerPage; //0 Pagina 0 => 1-1 * 10 = 0
@@ -83,7 +83,7 @@ export const getSearchResultPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
-  //Per ogni ingrediente aggiorna la quantità da usare secondo la proporzione
+  //For each ingredient, update the quantity according to the proportion
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
 
@@ -91,20 +91,20 @@ export const updateServings = function (newServings) {
     //New quantity = old quantity  * new serving / old serving
   });
 
-  //Aggiorno nello state
+  //Update in state
   state.recipe.servings = newServings;
 };
 
 const persistBookmarks = function () {
-  //Passo l'oggetto convertito in stringa
+  //Passing the object converted to a string
   localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 
 export const addBookmark = function (recipe) {
-  //Aggiungi al bookmark
+  //Add to bookmarks
   state.bookmarks.push(recipe);
 
-  //Marca la ricetta corrente solo se è la stessa che ho marcato come bookmark
+  //Mark the current recipe only if it's the same one being bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarks = true;
 
   persistBookmarks();
@@ -112,25 +112,25 @@ export const addBookmark = function (recipe) {
 
 //When deleting something we need only the id
 export const deleteBookmark = function (id) {
-  //Trova l'index dell'id del bookmark da eliminare
+  //Find the index of the bookmark id to delete
   const index = state.bookmarks.findIndex(el => el.id === id);
-  //Rimuovi il bookmark
+  //Remove the bookmark
   state.bookmarks.splice(index, 1);
-  //Toglie il mark alla ricetta corrente solo se è la stessa che ho marcato come bookmark
+  //Unmark the current recipe only if it's the same one that was bookmarked
   if (id === state.recipe.id) state.recipe.bookmarks = false;
   persistBookmarks();
 };
 
 const init = function () {
-  //Ottieni la memoria
+  //Get the stored data
   const storage = localStorage.getItem('bookmarks');
-  //Passa la memoria come oggetto solo se non è vuota
+  //Parse the stored data as an object only if it's not empty
   if (storage) state.bookmarks = JSON.parse(storage);
 };
 
 init();
 
-//Funzione di debug che permette di eliminare i bookmark in fretta
+//Debug function that allows quickly clearing all bookmarks
 const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
@@ -163,9 +163,9 @@ export const uploadRecipe = async function (newRecipe) {
     };
 
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
-    //Salva nello state
+    //Save in state
     state.recipe = createRecipeObject(data);
-    //Mettila nei bookmark
+    //Add it to bookmarks
     addBookmark(state.recipe);
   } catch (err) {
     throw err;

@@ -1,4 +1,4 @@
-//Import tutto dal model
+//Import everything from the model
 import * as model from './model.js';
 import { MODAL_CLOSE_SEC } from './config.js';
 import recipeView from './views/recipeView';
@@ -8,36 +8,36 @@ import bookmarksView from './views/bookmarksView.js';
 import paginationView from './views/paginationView.js';
 import addRecipeView from './views/addRecipeView.js';
 
-//Tool di polyfill , core-js inserisce metodi e funzionalita es6 in old browsers
-import 'core-js/stable'; //Importo solo la versione stable
-//Regenerator runtime fa funzionare async await
-import 'regenerator-runtime/runtime'; //Importo solo il runtime7s
+//Polyfill tool — core-js adds ES6 methods and features to old browsers
+import 'core-js/stable'; //Importing only the stable version
+//Regenerator runtime makes async/await work
+import 'regenerator-runtime/runtime'; //Importing only the runtime
 
-//Questo non è js ma viene da parcel
+//This is not JS but comes from Parcel
 // if (module.hot) {
 //   module.hot.accept();
 // }
 
 const controlRecipes = async function () {
   try {
-    //Ottengo l'url della barra di ricerca così
+    //Getting the URL from the search bar this way
     const id = window.location.hash.slice(1);
 
     if (!id) return;
-    //Per lo spinner semplicemente lo inserisco prima del fetch . Poi il contenuto del fetch sostituirà lo spinner
+    //For the spinner, simply insert it before the fetch. Then the fetch content will replace the spinner
     recipeView.renderSpinner();
 
-    //Mostrami i risultati anche quando apro la ricetta
+    //Also show results when opening the recipe
     resultsView.update(model.getSearchResultPage());
 
-    //Aggiorna i bookmark
+    //Update bookmarks
     bookmarksView.update(model.state.bookmarks);
 
     //Loading recipe
     await model.loadRecipe(id);
     const { recipe } = model.state;
 
-    //Chiama il metodo render della classe recipeView passando la ricetta
+    //Call the render method of recipeView passing the recipe
     recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();
@@ -62,17 +62,17 @@ const controlSearchResults = async function () {
 
     //Render results
     resultsView.render(model.getSearchResultPage());
-    //Render inital pagination buttons . Passo i dati dello state con pagina ecc
+    //Render initial pagination buttons. Passing state data with page info etc.
     paginationView.render(model.state.search);
   } catch (err) {
-    //Se vai in errore renderizzalo
+    //If an error occurs, render it
     resultsView.renderError();
-    //E resetta i pulsanti
+    //And reset the buttons
     paginationView._clear();
   }
 };
 
-//Nuovo controller per le pagine
+//New controller for pages
 const controlPagination = function (goToPage) {
   //Render new results
   resultsView.render(model.getSearchResultPage(goToPage));
@@ -90,16 +90,16 @@ const controlServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
-  //Se non è tra i bookmark me la aggiungi
+  //If not bookmarked yet, add it
   if (!model.state.recipe.bookmarks) model.addBookmark(model.state.recipe);
-  //Se è già tra i bookmark me la togli
+  //If already bookmarked, remove it
   else {
     model.deleteBookmark(model.state.recipe.id);
   }
 
   recipeView.update(model.state.recipe);
 
-  //Mostra i bookmark
+  //Show bookmarks
   bookmarksView.render(model.state.bookmarks);
   if (model.state.bookmarks.length < 1) bookmarksView.renderError();
 };
@@ -116,7 +116,7 @@ const controlAddRecipe = async function (newRecipe) {
 
     await model.uploadRecipe(newRecipe);
 
-    //Renderizza la ricetta
+    //Render the recipe
     recipeView.render(model.state.recipe);
 
     //Success message
@@ -138,7 +138,7 @@ const controlAddRecipe = async function (newRecipe) {
   }
 };
 
-//Chiamo la funzione handler nel view passando le mie funzioni subscriber
+//Calling the handler function in the view passing my subscriber functions
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);

@@ -1,6 +1,6 @@
 import icons from 'url:../../img/icons.svg'; //Parcel 2
 
-//View comune
+//Common/shared base view
 export default class View {
   _query;
   _data;
@@ -19,17 +19,17 @@ export default class View {
    * @todo Finish implementation
    */
 
-  //Inserisce il markup generato
+  //Inserts the generated markup
   render(data, render = true) {
     this._data = data;
 
-    //Markup ora è ciò che _ ritorna
+    //Markup is now what _generateMarkup returns
     const markup = this._generateMarkup();
 
     if (!render) return markup;
-    //Pulsci ricetta
+    //Clear recipe
     this._clear();
-    //inserisci markup nel parentelement
+    //Insert markup in the parent element
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
@@ -40,16 +40,16 @@ export default class View {
 
     //We are gonna compare this new markup with html existing
     const newDOM = document.createRange().createContextualFragment(newMarkup); //This method convert the string into real dom node
-    const newElements = Array.from(newDOM.querySelectorAll('*')); //Elementi presenti ora + il nuovo markup
-    const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elementi presenti ora sulla pagina
+    const newElements = Array.from(newDOM.querySelectorAll('*')); //Current elements + the new markup
+    const curElements = Array.from(this._parentElement.querySelectorAll('*')); //Elements currently on the page
 
     //Looping over both array
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
-      //Controllo quali nodi son uguali e quali no
+      //Checking which nodes are equal and which are not
       // console.log(curEl, newEl.isEqualNode(curEl));
 
-      //Node value permette di verificare se il nodo è di tipo testo o meno. A noi interessa modificare solo dove il contenuto è puro testo . Seleziono prima first child per ottenere il TEXT NODE che è figlio dell' ELEMENT NODE
+      //nodeValue checks whether the node is a text node. We only update where content is pure text. We select firstChild to get the TEXT NODE which is a child of the ELEMENT NODE
       //Update changed text
       if (
         !newEl.isEqualNode(curEl) &&
@@ -60,7 +60,7 @@ export default class View {
 
       //Update changed attributes
       if (!newEl.isEqualNode(curEl)) {
-        //Sostitusci i vecchi valori di ATTRIBUTO con i nuovi aggiornati
+        //Replace old ATTRIBUTE values with the updated new ones
         Array.from(newEl.attributes).forEach(attr =>
           curEl.setAttribute(attr.name, attr.value),
         );
@@ -80,12 +80,12 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  //Pulisce il campo ricetta
+  //Clears the recipe field
   _clear() {
     this._parentElement.innerHTML = '';
   }
 
-  //Di default metto il messaggio custom
+  //By default uses the custom error message
   renderError(message = this._errorMessage) {
     const markup = `
       
@@ -102,7 +102,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  //Messaggio normale che inseriremo piu avanti
+  //Standard success message
   renderMessage(message = this._message) {
     const markup = `
       
