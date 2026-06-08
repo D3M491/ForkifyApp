@@ -2158,7 +2158,10 @@ const loadSearchResults = async function(query) {
                 id: rec.id,
                 title: rec.title,
                 publisher: rec.publisher,
-                image: rec.image_url
+                image: rec.image_url,
+                ...rec.key && {
+                    key: rec.key
+                }
             };
         });
         //Parto sempre da pagina 1 dopo una nuova ricerca
@@ -2219,7 +2222,8 @@ clearBookmarks();
 const uploadRecipe = async function(newRecipe) {
     try {
         const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith('ingredient') && entry[1] !== '').map((ing)=>{
-            const ingArr = ing[1].replaceAll(' ', '').split(',');
+            const ingArr = ing[1].split(',').map((el)=>el.trim());
+            // const ingArr = ing[1].replaceAll(' ', '').split(',');
             if (ingArr.length !== 3) throw new Error('Wrong ingredient format , please use the correct format');
             const [quantity, unit, description] = ingArr;
             return {
@@ -3020,8 +3024,10 @@ class RecipeView extends (0, _viewDefault.default) {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
-            
+          <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+             <svg>
+                <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+              </svg>
           </div>
           <button class="btn--round btn--bookmark">
             <svg class="">
@@ -3186,7 +3192,15 @@ class View {
         return 'We could not find any recipe. Please try another one!';
     }
     _message = '';
-    //Inserisce il markup generato
+    /** JS Docs documentation
+   * Render the received object to the dom
+   * @param {Object | Object[]} data The data to be rendered
+   * @param {boolean} [render= true] If false create markup string instead of rendering to dom
+   * @returns {undefined | string } A markup is returned if renderfalse
+   * @this {Object} View instance
+   * @author Manuel
+   * @todo Finish implementation
+   */ //Inserisce il markup generato
     render(data, render = true) {
         this._data = data;
         //Markup ora è ciò che _ ritorna
@@ -3263,7 +3277,14 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
-}
+} //Display number of pages between the pagination buttons
+ //ability to sort search result by duration or number of ingredients
+ //perform ingredient validation in view before submitting the form
+ // Improve recipe ingredient input separate in multiple fields and allow more of than 6 ing
+ //HARD
+ //Shopping list feature : Button on recipe to add ingredients to a list
+ //Weekly meal plannning feature : assign recipes to the next 7 days and show on a weekly calendar
+ //Get nutrition data on each ingredient from spoonacular API https://spoonacular.com/food-api and calculate total calories of recipe
 exports.default = View;
 
 },{"url:../../img/icons.svg":"fd0vu","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"kbE4Z":[function(require,module,exports,__globalThis) {
@@ -3317,6 +3338,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");
 var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg"); //PArcel 2
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class previewView extends (0, _viewDefault.default) {
     _parentElement = '';
     _generateMarkup() {
@@ -3330,6 +3353,11 @@ class previewView extends (0, _viewDefault.default) {
               <div class="preview__data">
                 <h4 class="preview__title">${this._data.title}</h4>
                 <p class="preview__publisher">${this._data.publisher}</p>
+                  <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+                    <svg>
+                      <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                    </svg>
+                  </div>
               </div>
             </a>
           </li>
@@ -3339,7 +3367,7 @@ class previewView extends (0, _viewDefault.default) {
 }
 exports.default = new previewView();
 
-},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"7NIiB":[function(require,module,exports,__globalThis) {
+},{"./View":"jSw21","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}],"7NIiB":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./View");

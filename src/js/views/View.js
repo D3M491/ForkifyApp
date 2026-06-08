@@ -9,6 +9,16 @@ export default class View {
   }
   _message = '';
 
+  /** JS Docs documentation
+   * Render the received object to the dom
+   * @param {Object | Object[]} data The data to be rendered
+   * @param {boolean} [render= true] If false create markup string instead of rendering to dom
+   * @returns {undefined | string } A markup is returned if renderfalse
+   * @this {Object} View instance
+   * @author Manuel
+   * @todo Finish implementation
+   */
+
   //Inserisce il markup generato
   render(data, render = true) {
     this._data = data;
@@ -109,3 +119,13 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 }
+
+//Display number of pages between the pagination buttons
+//ability to sort search result by duration or number of ingredients
+//perform ingredient validation in view before submitting the form
+// Improve recipe ingredient input separate in multiple fields and allow more of than 6 ing
+
+//HARD
+//Shopping list feature : Button on recipe to add ingredients to a list
+//Weekly meal plannning feature : assign recipes to the next 7 days and show on a weekly calendar
+//Get nutrition data on each ingredient from spoonacular API https://spoonacular.com/food-api and calculate total calories of recipe
