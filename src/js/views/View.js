@@ -118,6 +118,8 @@ export default class View {
   }
 }
 
+//TODO Sistema bug del messaggio di conferma ricetta
+
 //Display number of pages between the pagination buttons
 //ability to sort search result by duration or number of ingredients
 //perform ingredient validation in view before submitting the form
