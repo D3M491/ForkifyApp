@@ -1,5 +1,4 @@
 import View from './View';
-import icons from 'url:../../img/icons.svg'; //Parcel 2
 
 class paginationView extends View {
   _parentElement = document.querySelector('.pagination');
@@ -28,7 +27,7 @@ class paginationView extends View {
           <button data-goto = "${currentPage + 1}" class="btn--inline pagination__btn--next">
             <span>Page ${currentPage + 1}</span>
             <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
+              <use href="#icon-arrow-right"></use>
             </svg>
           </button>`;
     //Page 1 and there are not other pages
@@ -38,7 +37,7 @@ class paginationView extends View {
       return `
           <button data-goto = "${currentPage - 1}" class="btn--inline pagination__btn--prev">
             <svg class="search__icon">
-              <use href="${icons}#icon-arrow-left"></use>
+              <use href="#icon-arrow-left"></use>
             </svg>
             <span>Page ${currentPage - 1}</span>
           </button>`;
@@ -47,7 +46,7 @@ class paginationView extends View {
       return `
          <button data-goto = "${currentPage - 1}" class="btn--inline pagination__btn--prev">
             <svg class="search__icon">
-              <use href="${icons}#icon-arrow-left"></use>
+              <use href="#icon-arrow-left"></use>
             </svg>
             <span>Page ${currentPage - 1}</span>
           </button>
@@ -55,7 +54,7 @@ class paginationView extends View {
           <button data-goto = "${currentPage + 1}" class="btn--inline pagination__btn--next">
             <span>Page ${currentPage + 1}</span>
             <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
+              <use href="#icon-arrow-right"></use>
             </svg>
           </button>`;
   }
