@@ -110,7 +110,6 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
-    console.log(newRecipe);
     //Show loading spinner
     addRecipeView.renderSpinner();
 
@@ -122,16 +121,15 @@ const controlAddRecipe = async function (newRecipe) {
     //Success message
     addRecipeView.renderMessage();
 
+    //Message close automatically after 2.5s if not exit manually by user
+    addRecipeView.timeoutCloseWindow(MODAL_CLOSE_SEC);
+
     //Render bookmark view
     bookmarksView.render(model.state.bookmarks);
 
     //Change id in the url . pushState allow to change url without reloading
     window.history.pushState(null, '', `#${model.state.recipe.id}`); //3 arg , 1) state , 2) title , 3) url
-
-    //Close form window
-    setTimeout(function () {
-      addRecipeView.toggleWindow();
-    }, MODAL_CLOSE_SEC * 1000);
+    return;
   } catch (err) {
     console.error(err);
     addRecipeView.renderError(err.message);
