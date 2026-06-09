@@ -1,3 +1,6 @@
 [build]
-  command = "npm run build"
+  command = "npm run build -- --no-cache"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
