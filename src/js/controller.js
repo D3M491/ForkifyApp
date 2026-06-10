@@ -119,7 +119,7 @@ const controlAddRecipe = async function (newRecipe) {
     recipeView.render(model.state.recipe);
 
     //Success message
-    addRecipeView.renderSuccessMessage();
+    addRecipeView.renderMessage();
 
     //Message close automatically after 2.5s if not exit manually by user
     addRecipeView.timeoutCloseWindow(MODAL_CLOSE_SEC);
