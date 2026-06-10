@@ -27,7 +27,7 @@ class paginationView extends View {
       return `
 
           <button class="btn--inline pagination__btn--center">
-            <span>Page ${numPages}</span>
+            <span>${this._data.results.length} recipes</span>
           </button>
 
           <button data-goto = "${currentPage + 1}" class="btn--inline pagination__btn--next">
@@ -44,7 +44,7 @@ class paginationView extends View {
       return `
           
           <button class="btn--inline pagination__btn--center">
-            <span>Page ${numPages}</span>
+            <span>${this._data.results.length} recipes</span>
           </button>
 
           <button data-goto = "${currentPage - 1}" class="btn--inline pagination__btn--prev">
@@ -58,7 +58,7 @@ class paginationView extends View {
       return `
           
          <button class="btn--inline pagination__btn--center">
-            <span>Page ${numPages}</span>
+            <span>${this._data.results.length} recipes</span>
          </button>
 
          <button data-goto = "${currentPage - 1}" class="btn--inline pagination__btn--prev">
